@@ -1,0 +1,215 @@
+# ============================================================
+# GlycoSMILES2BAP Project - Git Ignore File
+# ============================================================
+
+# ------------------------------------------------------------
+# Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# ------------------------------------------------------------
+# AlphaFold 3 - Large Files
+# ------------------------------------------------------------
+# AF3 source code (downloaded separately)
+alphafold3/
+
+# AF3 model parameters (several GB)
+models/
+*.ckpt
+*.pth
+*.pt
+
+# AF3 output files (large)
+results/af3_output/
+results/af3_output/**/
+
+# AF3 database cache
+public_databases/
+*.pdb
+*.cif
+*.mmcif
+*.fasta
+*.a3m
+
+# Chemical component cache
+*.pickle
+*.pkl
+chemical_component_sets.pickle
+
+# ------------------------------------------------------------
+# Large Data Files
+# ------------------------------------------------------------
+# Benchmark data
+data/benchmark_structures_full.json
+data/*.json
+
+# GlyTouCan database (large)
+glytoucan_database/
+
+# Large intermediate files
+*.db
+*.sqlite
+*.h5
+*.hdf5
+
+# ------------------------------------------------------------
+# AF3 Input Files (keep small test files)
+# ------------------------------------------------------------
+# Keep validation input files, ignore large outputs
+# results/af3_validation/*.json  # Keep these
+results/af3_output/**/
+results/af3_analysis/**/
+
+# ------------------------------------------------------------
+# LaTeX Build Files
+# ------------------------------------------------------------
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.pdf
+*.dvi
+*.ps
+*.idx
+*.ilg
+*.ind
+*.ist
+*.nlo
+*.out
+*.bix
+
+# But keep the final PDF
+!bioinformatics_template/*.pdf
+
+# ------------------------------------------------------------
+# IDE and Editor
+# ------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# ------------------------------------------------------------
+# OS Files
+# ------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ------------------------------------------------------------
+# Logs and Temporary Files
+# ------------------------------------------------------------
+logs/
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+.cache/
+
+# ------------------------------------------------------------
+# Large Tool Results
+# ------------------------------------------------------------
+large_tool_results/
+
+# ------------------------------------------------------------
+# Jupyter Notebooks
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ------------------------------------------------------------
+# Test Coverage
+# ------------------------------------------------------------
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ------------------------------------------------------------
+# Memory and Cache (keep structured memory)
+# ------------------------------------------------------------
+# Keep memory/*.md files for documentation
+# But ignore any binary cache files
+memory/*.pickle
+memory/*.pkl
+memory/*.db
+
+# ------------------------------------------------------------
+# Artifacts (large generated files)
+# ------------------------------------------------------------
+artifacts/*.pdb
+artifacts/*.cif
+artifacts/*.mol2
+artifacts/*.sdf
+
+# ------------------------------------------------------------
+# Specific Large Files
+# ------------------------------------------------------------
+# Any file larger than 50MB (typical GitHub limit)
+# These patterns catch common large file types
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z

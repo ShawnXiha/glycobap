@@ -1,0 +1,52 @@
+{
+  "experiment_name": "GlycoSMILES2BAP Ablation Study",
+  "date": "2026-03-21",
+  "seed": 42,
+  "test_conditions": [
+    {
+      "id": "full_pipeline",
+      "name": "Full Pipeline",
+      "description": "Complete GlycoSMILES2BAP with all modules",
+      "modules": ["parser", "ccd_mapper", "anomeric_tracking", "branch_handling", "bap_generator"]
+    },
+    {
+      "id": "wo_ccd_mapper",
+      "name": "w/o CCD Mapper",
+      "description": "Using generic residue names instead of proper CCD codes",
+      "modules": ["parser", "anomeric_tracking", "branch_handling", "bap_generator"]
+    },
+    {
+      "id": "wo_anomeric_tracking",
+      "name": "w/o Anomeric Tracking",
+      "description": "Using C1 as anomeric carbon for all residues",
+      "modules": ["parser", "ccd_mapper", "branch_handling", "bap_generator"]
+    },
+    {
+      "id": "wo_branch_handling",
+      "name": "w/o Branch Handling",
+      "description": "Linear processing only, ignoring branch topology",
+      "modules": ["parser", "ccd_mapper", "anomeric_tracking", "bap_generator"]
+    },
+    {
+      "id": "ccd_mapper_only",
+      "name": "CCD Mapper Only",
+      "description": "Only CCD mapping, no BAP generation",
+      "modules": ["parser", "ccd_mapper"]
+    }
+  ],
+  "test_glycans": [
+    {"id": "LNnT", "category": "linear", "residues": 4, "linkages": 3},
+    {"id": "LNT", "category": "linear", "residues": 4, "linkages": 3},
+    {"id": "LacNAc", "category": "linear", "residues": 2, "linkages": 1},
+    {"id": "M3", "category": "n_glycan", "residues": 5, "linkages": 4},
+    {"id": "M5", "category": "n_glycan", "residues": 7, "linkages": 6},
+    {"id": "G0", "category": "n_glycan", "residues": 7, "linkages": 6},
+    {"id": "G2", "category": "n_glycan", "residues": 9, "linkages": 8},
+    {"id": "Tn", "category": "o_glycan", "residues": 1, "linkages": 1},
+    {"id": "T", "category": "o_glycan", "residues": 2, "linkages": 2},
+    {"id": "Sialyl-T", "category": "o_glycan", "residues": 3, "linkages": 3},
+    {"id": "LNnT-Sia", "category": "sialylated", "residues": 5, "linkages": 4},
+    {"id": "BiAntennary", "category": "complex", "residues": 11, "linkages": 10}
+  ],
+  "metrics": ["epimer_accuracy", "anomeric_accuracy", "linkage_accuracy", "processing_time"]
+}

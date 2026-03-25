@@ -1,0 +1,47 @@
+{
+  "name": "V003_Sialyllactose_CRITICAL_TEST",
+  "description": "Sialic acid validation - C2 anomeric carbon (ketose property)",
+  "date": "2026-03-24",
+  
+  "ligand": {
+    "ccdCodes": ["SIA", "GAL", "BGC"],
+    "bondedAtomPairs": [
+      {
+        "donor": {"residueIndex": 1, "atomName": "C2"},
+        "acceptor": {"residueIndex": 2, "atomName": "O3"}
+      },
+      {
+        "donor": {"residueIndex": 2, "atomName": "C1"},
+        "acceptor": {"residueIndex": 3, "atomName": "O4"}
+      }
+    ]
+  },
+  
+  "expected_structure": {
+    "SIA": {
+      "anomeric_carbon": "C2 (NOT C1 - ketose!)",
+      "configuration": "alpha",
+      "ring_oxygen": "O6 (NOT O5)",
+      "note": "Neu5Ac is a 9-carbon ketose, anomeric position differs from aldoses"
+    },
+    "GAL": {
+      "anomeric_carbon": "C1",
+      "configuration": "beta",
+      "linkage_to_GLC": "O4"
+    },
+    "BGC": {
+      "name": "beta-D-glucose",
+      "configuration": "beta"
+    }
+  },
+  
+  "validation_checklist": [
+    "CRITICAL: Check that SIA C2 (not C1) is the anomeric carbon",
+    "CRITICAL: Check that SIA ring oxygen is O6",
+    "Check alpha configuration of SIA-GAL linkage (axial C2-O bond)",
+    "Check beta configuration of GAL-BGC linkage",
+    "Compare with SMILES input result - SMILES typically fails on C2 positioning"
+  ],
+  
+  "comparison_note": "If SMILES format were used, AF3 would likely place the anomeric bond at C1 (incorrect for sialic acid). The BAP format forces correct C2 placement. This is a key demonstration of GlycoSMILES2BAP value."
+}

@@ -1,0 +1,53 @@
+{
+  "description": "Benchmark examples for GlycoSMILES2BAP validation",
+  "examples": [
+    {
+      "id": "LNnT",
+      "name": "Lacto-N-neotetraose",
+      "category": "Linear",
+      "iupac": "Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)Glc",
+      "expected_ccd": ["GAL", "NAG", "GAL", "GLC"],
+      "expected_bap": [
+        {"residue1": 1, "atom1": "C1", "residue2": 2, "atom2": "O4"},
+        {"residue1": 2, "atom1": "C1", "residue2": 3, "atom2": "O3"},
+        {"residue1": 3, "atom1": "C1", "residue2": 4, "atom2": "O4"}
+      ]
+    },
+    {
+      "id": "LNT",
+      "name": "Lacto-N-tetraose",
+      "category": "Linear",
+      "iupac": "Gal(b1-3)GlcNAc(b1-3)Gal(b1-4)Glc",
+      "expected_ccd": ["GAL", "NAG", "GAL", "GLC"],
+      "expected_bap": [
+        {"residue1": 1, "atom1": "C1", "residue2": 2, "atom2": "O3"},
+        {"residue1": 2, "atom1": "C1", "residue2": 3, "atom2": "O3"},
+        {"residue1": 3, "atom1": "C1", "residue2": 4, "atom2": "O4"}
+      ]
+    },
+    {
+      "id": "M3",
+      "name": "Man3 core N-glycan",
+      "category": "N-glycan",
+      "iupac": "Man(a1-6)[Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc",
+      "expected_ccd": ["MAN", "MAN", "MAN", "NAG", "NAG"],
+      "expected_bap": [
+        {"residue1": 1, "atom1": "C1", "residue2": 3, "atom2": "O6"},
+        {"residue1": 2, "atom1": "C1", "residue2": 3, "atom2": "O3"},
+        {"residue1": 3, "atom1": "C1", "residue2": 4, "atom2": "O4"},
+        {"residue1": 4, "atom1": "C1", "residue2": 5, "atom2": "O4"}
+      ]
+    },
+    {
+      "id": "NA2",
+      "name": "Biantennary N-glycan",
+      "category": "N-glycan",
+      "iupac": "Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc",
+      "expected_ccd": ["GAL", "NAG", "MAN", "GAL", "NAG", "MAN", "MAN", "NAG", "NAG"],
+      "expected_bap": [
+        {"residue1": 1, "atom1": "C1", "residue2": 2, "atom2": "O4"},
+        {"residue1": 2, "atom1": "C1", "residue2": 3, "atom2": "O2"},
+        {"residue1": 3, "atom1": "C1", "residue2": 7, "atom2": "O6"},
+        {"residue1": 4, "atom1": "C1", "residue2": 5, "atom2": "O4"},
+        {"residue1": 5, "atom1": "C1", "residue2": 6, "atom2": "O2"},
+        {"residue1": 6, "atom1":

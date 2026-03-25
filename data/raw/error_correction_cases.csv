@@ -1,0 +1,11 @@
+case_id,pdb_id,error_type,error_description,literature_source,pmid,resolution_angstrom,input_notation,corrected_ccd,correction_method,validation_status
+1,5NSC,Anomeric,Fucose modeled as beta-anomer instead of alpha,Frenz et al. Structure 2018,30344107,2.3,Fuc(a1-?)GlcNAc,FUC,CCD Mapper - anomeric position C1,Validated by Privateer
+2,5K65,Conformation,Fucose in high-energy boat conformation,Frenz et al. Structure 2018,30344107,2.5,Fuc(a1-?)GlcNAc,FUC,CCD stereochemistry constraints,Validated by Privateer
+3,5K65,Linkage,Missing Asn297-GlcNAc N-glycosidic bond,Frenz et al. Structure 2018,30344107,2.5,GlcNAc(b1-N)Asn,NAG,BAP Generator - N-linkage specification,Manual validation
+4,1C1Z,Anomeric,"2 anomeric errors, 2 high-energy conformations",Frenz et al. Structure 2018,30344107,2.87,Multiple residues,Multiple,CCD Mapper + Anomeric Tracker,Validated by Privateer
+5,5H9Y,Conformation,8 high-energy ring conformations,Frenz et al. Structure 2018,30344107,1.97,15-residue glycan,Multiple,CCD stereochemistry constraints,Validated by Privateer
+6,1Q5C,Linkage,Extra bond between glycosidic oxygen and ring oxygen,Jo et al. J Comput Chem 2011,21815173,2.5,Standard O-glycosidic linkage,Multiple,BAP Generator - explicit atom pairs,Manual validation
+7,3GVU,Epimer,Galactose modeled as glucose at C4 position,Jo et al. J Comput Chem 2011,21815173,2.2,Gal(b1-4)Glc,GAL,CCD Mapper - C4 stereochemistry,Validated by Privateer
+8,4DOE,Anomeric,Neu5Ac anomeric position set to C1 instead of C2,Frenz et al. Structure 2018,30344107,2.8,Neu5Ac(a2-?),SIA,Anomeric Tracker - C2 for ketoses,Validated by Privateer
+9,2JIH,Linkage,Incorrect branching point in biantennary N-glycan,Jo et al. J Comput Chem 2011,21815173,2.4,Biantennary N-glycan,Multiple,Branch Handler - topology mapping,Manual validation
+10,1OVM,Conformation,Xylose ring oxygen set to O5 instead of O4,Literature compilation,N/A,2.1,Xyl(b1-?),XYS,CCD Mapper - O4 for pentoses,Validated by Privateer

@@ -1,0 +1,17 @@
+{
+  "name": "Lactose_BAP_Test",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "ligand": {
+        "id": "G",
+        "ccdCodes": ["GAL", "GLC"]
+      }
+    }
+  ],
+  "bondedAtomPairs": [
+    [["G", 1, "C1"], ["G", 2, "O4"]]
+  ],
+  "dialect": "alphafold3",
+  "version": 1
+}

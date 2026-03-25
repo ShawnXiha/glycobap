@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <style>
+      .box { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2; }
+      .arrow { fill: none; stroke: #1976D2; stroke-width: 2; marker-end: url(#arrowhead); }
+      .title { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #1976D2; }
+      .label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }
+      .module { font-family: Arial, sans-serif; font-size: 11px; fill: #555; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1976D2"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title" style="font-size: 16px;">GlycoSMILES2BAP Pipeline Architecture</text>
+  
+  <!-- Input Box -->
+  <rect x="50" y="80" width="200" height="60" rx="5" class="box"/>
+  <text x="150" y="105" text-anchor="middle" class="label">Input</text>
+  <text x="150" y="125" text-anchor="middle" class="module">IUPAC / WURCS / GlycoCT</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="250" y1="110" x2="300" y2="110" class="arrow"/>
+  
+  <!-- Parser Box -->
+  <rect x="300" y="80" width="200" height="60" rx="5" class="box"/>
+  <text x="400" y="105" text-anchor="middle" class="label">Parser Module</text>
+  <text x="400" y="125" text-anchor="middle" class="module">GlyLES / GFC Integration</text>
+  
+  <!-- Arrow 2 -->
+  <line x1="500" y1="110" x2="550" y2="110" class="arrow"/>
+  
+  <!-- AST Box -->
+  <rect x="550" y="80" width="200" height="60" rx="5" class="box"/>
+  <text x="650" y="105" text-anchor="middle" class="label">Abstract Syntax Tree</text>
+  <text x="650" y="125" text-anchor="middle" class="module">Monosaccharide + Linkage</text>
+  
+  <!-- Arrow down -->
+  <line x1="650" y1="140" x2="650" y2="190" class="arrow"/>
+  
+  <!-- CCD Mapper Box -->
+  <rect x="550" y="190" width="200" height="80" rx="5" class="box"/>
+  <text x="650" y="215" text-anchor="middle" class="label">CCD Mapper</text>
+  <text x="650" y="235" text-anchor="middle" class="module">28+ Monosaccharide</text>
+  <text x="650" y="255" text-anchor="middle" class="module">Configurations</text>
+  
+  <!-- Arrow down -->
+  <line x1="550" y1="230" x2="300" y2="230" class="arrow"/>
+  
+  <!-- BAP Generator Box -->
+  <rect x="50" y="190" width="200" height="80" rx="5" class="box"/>
+  <text x="150" y="215" text-anchor="middle" class="label">BAP Generator</text>
+  <text x="150" y="235" text-anchor="middle" class="module">bondedAtomPairs</text>
+  <text x="150" y="255" text-anchor="middle" class="module">Specification</text>
+  
+  <!-- Arrow down -->
+  <line x1="150" y1="270" x2="150" y2="320

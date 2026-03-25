@@ -1,0 +1,18 @@
+{
+  "name": "V001_Lactose_Validation",
+  "description": "Lactose disaccharide - basic beta linkage test",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "glycan": {
+        "ccdCodes": ["GAL", "BGC"],
+        "bondedAtomPairs": [
+          {
+            "donor": {"residueIndex": 1, "atomName": "C1"},
+            "acceptor": {"residueIndex": 2, "atomName": "O4"}
+          }
+        ]
+      }
+    }
+  ]
+}

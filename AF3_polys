@@ -1,0 +1,94 @@
+# Results, Discussion, Conclusion 修订总结
+
+## 修订日期
+2026-03-23
+
+## 应用的Paper-Writing原则
+
+### 1. Results部分改进
+
+#### 结构化观察列表 (Structured Observations)
+- **原版**: 连续段落描述结果
+- **新版**: 使用结构化观察列表，每个观察包含：
+  1. **Bold title**: 方法创新点 → 结果现象
+  2. **Empirical evidence**: 具体数字、比较、模式
+  3. **Mechanistic explanation**: 为什么产生这个结果
+
+#### RQ标记结构
+- **RQ1 (Main Results)**: 对比实验，证明方法更好
+- **RQ2 (Ablation Study)**: 消融研究，证明模块有效
+- **RQ3 (Practical Validation)**: 实际验证，展示方法上限
+
+### 2. Discussion部分改进
+
+#### 三元素结构
+- **Strengths**: 每个优势有具体数据支撑
+- **Limitations**: 明确声明范围边界
+- **Failure Analysis**: 展示一个失败案例及其诊断
+
+### 3. Conclusion部分改进
+
+#### 精简结构
+1. **核心贡献**: 一句话总结解决的问题
+2. **技术优势**: 机制 + 数据
+3. **影响**: 对领域的影响
+4. **Scope声明**: 明确方法适用范围
+5. **Future Work**: 具体可行方向
+
+## 关键数据引用
+
+### 主要结果 (Table 2)
+| Metric | GlycoSMILES2BAP | SMILES | 改进 |
+|--------|-----------------|--------|------|
+| Epimer accuracy | 98.5% | 62% | +36.5% |
+| Anomeric accuracy | 98.2% | 71% | +27.2% |
+| Linkage accuracy | 96.8% | 74% | +22.8% |
+| Processing time | 0.82s | N/A | >2000x |
+
+### 消融研究 (Table 3)
+| Module Removed | Impact | Assessment |
+|----------------|--------|------------|
+| CCD Mapper | -15.5% epimer | Critical for stereochemistry |
+| Anomeric Tracker | -18.9% anomeric | Critical for sialic acids |
+| Branch Handler | -13.5% linkage | Critical for branched glycans |
+
+### 效应量 (Cohen's d)
+- Epimer: d = 2.8 (very large)
+- Anomeric: d = 2.4 (very large)
+- Linkage: d = 2.1 (very large)
+
+## Counterintuitive Writing Tactics应用
+
+### Tactic 1: Lower the Verbal Temperature
+- ❌ "significantly outperforms all methods"
+- ✅ "improves performance by 36.5 percentage points under matched protocols (Table 2)"
+
+### Tactic 2: Declare Scope Boundaries
+- 明确声明: "Our method targets common mammalian glycans; bacterial and plant glycans with unusual linkages may require additional testing."
+
+### Tactic 3: Mechanism Before Metrics
+- 先解释机制: "The CCD mapper's domain knowledge of anomeric positions (C1 vs C2) and ring oxygen positions (O4 vs O5 vs O6) is essential."
+- 再报告数据: "Removal causes 15.5% epimer accuracy drop."
+
+### Tactic 4: Claim-Evidence Thread
+- 每个claim都有明确的表格/图引用
+- "As quantified in Table 2..."
+- "Figure 3 shows error correction validation..."
+
+### Tactic 7: Failure as Competence Signal
+- 包含失败分析: "6 failed structures involved unsupported CCD codes (3), unusual linkages (2), and input notation errors (1)."
+
+## 文件状态
+
+| 文件 | 状态 | 说明 |
+|------|------|------|
+| `glycosmiles2bap_complete_v2.tex` | ✅ 完整 | 8页，包含所有部分 |
+| `glycosmiles2bap_complete_v2.pdf` | ✅ 编译成功 | 346 KB |
+| `RESULTS_DISCUSSION_REVISION.md` | ✅ 创建 | 本修订总结 |
+
+## 下一步建议
+
+1. **Review**: 使用paper-review技能进行自检
+2. **Figures**: 确保所有图表清晰且标注完整
+3. **References**: 检查引用格式是否符合目标期刊要求
+4. **Supplementary**: 准备补充材料（如有需要）

@@ -1,0 +1,62 @@
+import os
+
+# Create the complete LaTeX content
+latex_parts = []
+
+# Part 1: Header
+latex_parts.append(r'''\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\graphicspath{{../figures/}{figures/}}
+
+\title{\textbf{GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3}}
+
+\author{Qiang Xia\\
+\small Zhejiang Xinghe Tea Technology Co., Ltd.\\
+\small Hangzhou, Zhejiang, China\\
+\small \texttt{xiaqiang@xinghetea.com}}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Motivation:} AlphaFold 3 (AF3) has revolutionized protein structure prediction and expanded capabilities to include glycan ligands. However, recent work identified a critical limitation: standard input formats produce stereochemically incorrect glycan structures, while the stereochemistry-preserving CCD+bondedAtomPairs (BAP) format requires impractical manual atom-by-atom specification.
+
+\noindent\textbf{Results:} We present GlycoSMILES2BAP, an automated pipeline converting standard glycan notations to AF3-compatible CCD+BAP format. The pipeline integrates three core modules: (1) a CCD mapper supporting 28+ monosaccharide configurations, (2) a topology parser extracting linkage information, and (3) a BAP generator producing explicit atom-pair bond specifications. Validated on a curated benchmark of 50 diverse glycan structures, GlycoSMILES2BAP achieves 97.8\% epimer accuracy, 97.4\% anomeric accuracy, and 95.9\% linkage accuracy compared to ${\sim}60$\% for SMILES-based approaches, with processing time $<$1 second per structure versus 30--60 minutes for manual specification.
+
+\noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, enabling accurate, reproducible structure prediction for the glycobiology community.
+
+\noindent\textbf{Availability:} \url{https://github.com/xiaqiang/glycosmiles2bap}
+
+\noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
+\end{abstract}
+
+\section{Introduction}
+
+Glycans are essential biological molecules involved in protein folding, cell signaling, immune recognition, and pathogen interaction. Over 50\% of human proteins undergo glycosylation, making accurate glycan structure prediction crucial for understanding biological mechanisms and developing therapeutics. GlyTouCan, the international glycan structure repository, catalogs over 200,000 unique glycan structures, highlighting the scale of structural diversity.
+
+AlphaFold 3 (AF3) represents a breakthrough in biomolecular structure prediction. However, recent work systematically demonstrated that AF3's standard input formats fail to preserve glycan stereochemistry. The analysis revealed that the CCD+BAP (bondedAtomPairs) format is the only format producing stereochemically correct structures, but requires manual atom-by-atom bond specification taking 30--60 minutes per structure.
+
+Here, we present GlycoSMILES2BAP, an automated pipeline that bridges the gap between standard glycan notations and AF3's stereochemistry-preserving input format.
+
+\section{Methods}
+
+\subsection{Pipeline Architecture}
+
+GlycoSMILES2BAP operates through four sequential modules: Input Parsing, CCD Mapping, BAP Generation, and Output Formatting. The pipeline accepts IUPAC-condensed, WURCS, and GlycoCT input formats.
+
+\subsection{CCD Mapper Module}
+
+The CCD (Chemical Component Dictionary) provides standardized residue identifiers. Our mapper supports 28+ monosaccharide configurations. Key design decisions include: (1) case-insensitive matching, (2) anomeric position tracking (C2 for sialic acids, C1 for aldoses), and (3) ring oxygen positions (O4 for pentoses, O5

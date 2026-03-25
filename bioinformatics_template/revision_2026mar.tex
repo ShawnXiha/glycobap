@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\graphicspath{{../figures/}{figures/}}
+
+\title{\textbf{GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3}}
+
+\author{Qiang Xia\\
+\small Zhejiang Xinghe Tea Technology Co., Ltd.\\
+\small Hangzhou, Zhejiang, China\\
+\small \texttt{xiaqiang@xinghetea.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Motivation:} AlphaFold 3 (AF3) has revolutionized protein structure prediction and expanded capabilities to include glycan ligands. However, recent work by Huang et al.\ (2025) identified a critical limitation: standard input formats (SMILES, userCCD) produce stereochemically incorrect glycan structures, while the stereochemistry-preserving CCD+bondedAtomPairs (BAP) format requires impractical manual atom-by-atom specification.
+
+\noindent\textbf{Results:} We present GlycoSMILES2BAP, an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format. The pipeline integrates three core modules: (1) a CCD mapper supporting 28+ monosaccharide configurations, (2) a topology parser extracting linkage information, and (3) a BAP generator producing explicit atom-pair bond specifications. Validated on a curated benchmark of 50 diverse glycan structures with systematic evaluation, GlycoSMILES2BAP achieves 98.5\% epimer accuracy, 98.2\% anomeric accuracy, and 96.8\% linkage accuracy compared to ${\sim}60$\% for SMILES-based approaches, with processing time $<$1 second per structure versus 30--60 minutes for manual specification. Systematic ablation studies confirm that all three core modules contribute significantly to the high accuracy. Furthermore, validation against 10 literature-reported structure errors demonstrated 100\% correction rate, and database-scale processing demonstrated scalability with 94\% success rate on 100 GlyTouCan representative structures (average processing time 0.82 s per structure).
+
+\noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, enabling accurate, reproducible structure prediction for the glycobiology community. The tool successfully corrects common stereochemistry errors and scales to database-level processing, making it suitable for both individual structure validation and large-scale structural glycomics.
+
+\noindent\textbf{Availability:} Open-source implementation available at \url{https://github.com/xiaqiang/glycosmiles2bap}
+
+\noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
+\end{abstract}
+
+\section{Introduction}
+
+Glycosylation is one of the most prevalent post-translational modifications in eukaryotic proteins, affecting over 50\% of the human proteome (Varki, 2017). Glycans play essential roles in protein folding, cell-cell recognition, immune responses, and pathogen-host interactions (Helenius and Aebi, 2004). The structural diversity of glycans---arising from variations in monosaccharide composition, linkage positions, anomeric configurations ($\alpha$/$\beta$), and branching patterns---poses significant challenges for structural characterization. GlyTouCan, the international glycan structure repository, catalogs over 200,000 unique entries (Tiemeyer et al., 2024), reflecting the substantial scale of glycan diversity that researchers must navigate.
+
+AlphaFold 3 (AF3) has transformed structural biology by achieving unprecedented accuracy in predicting protein-ligand complex structures, including glycosylated proteins (Abramson et al., 2024). This breakthrough has generated considerable interest in the glycobiology community, as accurate glycan structure prediction could accelerate research in glycoprotein engineering, vaccine design, and therapeutic

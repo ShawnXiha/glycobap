@@ -1,0 +1,86 @@
+%==============================================
+% METHODS
+%==============================================
+\section{Methods}
+
+\subsection{Pipeline Architecture}
+
+GlycoSMILES2BAP operates through four sequential modules (Figure~\ref{fig:pipeline}):
+
+\begin{verbatim}
+Input: Glycan notation (IUPAC-condensed / WURCS)
+    ↓
+[Parser] → Abstract Syntax Tree (AST)
+    ↓
+[CCD Mapper] → Chemical Component Dictionary codes
+    ↓
+[BAP Generator] → bondedAtomPairs specification
+    ↓
+Output: AF3-compatible JSON input
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+% Placeholder for pipeline figure
+\fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}\textbf{Figure 1: Pipeline Architecture}\vspace{2cm}}}
+\caption{Pipeline architecture showing the four-stage conversion process from glycan notation to AF3-compatible JSON. The input parsing module accepts IUPAC-condensed, WURCS, or GlycoCT formats and produces an abstract syntax tree. The CCD Mapper converts monosaccharide identifiers to PDB CCD codes with stereochemistry-aware mapping. The BAP Generator produces explicit atom-pair bond specifications.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Input Parsing Module}
+
+The pipeline accepts three input formats commonly used in glycobiology:
+
+\begin{enumerate}
+\item \textbf{IUPAC-condensed}: The standard notation used in publications (e.g., \texttt{Gal(b1-4)GlcNAc})
+\item \textbf{WURCS}: Web3 Unique Representation of Carbohydrate Structures
+\item \textbf{GlycoCT}: A comprehensive XML-based glycan format
+\end{enumerate}
+
+The parser module leverages existing glycan parsing tools (GlyLES, GlycanFormatConverter) to convert input strings into a standardized Abstract Syntax Tree (AST) representation. This AST captures:
+\begin{itemize}
+\item Monosaccharide identity (Glc, Gal, Man, etc.)
+\item Anomeric configuration ($\alpha$/$\beta$)
+\item Absolute configuration (D/L)
+\item Ring type (pyranose/furanose)
+\item Modifications (acetylation, sulfation, etc.)
+\item Glycosidic linkage positions
+\end{itemize}
+
+\subsection{CCD Mapper Module}
+
+The CCD (Chemical Component Dictionary) provides standardized residue identifiers used by the Protein Data Bank. Our mapper supports 28+ monosaccharide configurations, mapping each (monosaccharide, anomer, absolute configuration) triplet to the appropriate CCD code.
+
+\begin{table}[htbp]
+\caption{Key CCD Mappings}
+\label{tab:ccd}
+\centering
+\begin{tabular}{lllll}
+\toprule
+\textbf{Monosaccharide} & \textbf{Anomer} & \textbf{Config} & \textbf{CCD Code} & \textbf{Anomeric C} \\
+\midrule
+GlcNAc & $\beta$ & D & NAG & C1 \\
+GlcNAc & $\alpha$ & D & A2G & C1 \\
+Man & $\alpha$ & D & MAN & C1 \\
+Man & $\beta$ & D & BMA & C1 \\
+Gal & $\beta$ & D & GAL & C1 \\
+Gal & $\alpha$ & D & GLA & C1 \\
+Fuc & $\alpha$ & L & FUC & C1 \\
+Neu5Ac & $\alpha$ & D & SIA & C2 \\
+Neu5Gc & $\alpha$ & D & NGC & C2 \\
+Xyl & $\beta$ & D & XYS & C1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key design decisions:}
+
+\begin{enumerate}
+\item \textbf{Case-insensitive matching}: All monosaccharide names are normalized to lowercase for robust lookup
+\item \textbf{Anomeric position tracking}: Sialic acids (Neu5Ac, Neu5Gc, KDN) use C2 as anomeric carbon (ketoses), while aldoses use C1
+\item \textbf{Ring oxygen positions}: Pentoses (Xyl, Ara, Rib) use O4; hexoses use O5; sialic acids use O6
+\end{enumerate}
+
+\subsection{BAP Generator Module}
+
+The bondedAtomPairs (BAP) generator converts glycan topology into AF3-compatible bond

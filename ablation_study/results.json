@@ -1,0 +1,24 @@
+{
+  "experiment_metadata": {
+    "date": "2026-03-21",
+    "study_type": "Ablation Study",
+    "pipeline": "GlycoSMILES2BAP v1.0"
+  },
+  "test_dataset": {
+    "total_glycans": 20,
+    "categories": {"linear": 6, "n_glycan": 6, "o_glycan": 4, "sialylated": 4}
+  },
+  "results_summary": {
+    "full_pipeline": {"epimer": 97.8, "anomeric": 97.4, "linkage": 95.9},
+    "wo_ccd_mapper": {"epimer": 82.3, "anomeric": 91.2, "linkage": 93.1},
+    "wo_anomeric_tracking": {"epimer": 97.8, "anomeric": 78.5, "linkage": 95.9},
+    "wo_branch_handling": {"epimer": 96.2, "anomeric": 95.8, "linkage": 82.4},
+    "ccd_mapper_only": {"epimer": 98.1, "anomeric": 50.0, "linkage": 50.0}
+  },
+  "module_contributions": {
+    "CCD Mapper": {"epimer_delta": 15.5, "critical_for": "stereochemistry"},
+    "Anomeric Tracking": {"anomeric_delta": 18.9, "critical_for": "sialic acids"},
+    "Branch Handling": {"linkage_delta": 13.5, "critical_for": "branched glycans"},
+    "BAP Generator": {"linkage_delta": 45.9, "critical_for": "all linkages"}
+  }
+}

@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage{lineno}
+
+% Page geometry
+\geometry{margin=1in}
+
+% Bibliography style
+\bibliographystyle{abbrvnat}
+
+\title{\textbf{GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3}}
+
+\author{Qiang Xia$^{*,1}$}
+
+\affiliation{$^1$Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China}
+
+\newcommand{\affmark}[1]{\ensuremath{^{#1}}}
+\newcommand{\affiliation}[1]{\textit{#1}}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-1em}
+\noindent\textbf{Associate Editor:} Editor Name
+
+\vspace{0.5em}
+\noindent\textbf{Contact:} \href{mailto:xiaqiang@xinghetea.com}{xiaqiang@xinghetea.com}
+
+\vspace{1em}
+
+\begin{abstract}
+\noindent\textbf{Motivation:} AlphaFold 3 (AF3) has revolutionized protein structure prediction and expanded capabilities to include glycan ligands. However, recent work by Huang et al.\ (2025) identified a critical limitation: standard input formats (SMILES, userCCD) produce stereochemically incorrect glycan structures, while the stereochemistry-preserving CCD+bondedAtomPairs (BAP) format requires impractical manual atom-by-atom specification.
+
+\noindent\textbf{Results:} We present GlycoSMILES2BAP, an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format. The pipeline integrates three core modules: (1) a CCD mapper supporting 28+ monosaccharide configurations, (2) a topology parser extracting linkage information, and (3) a BAP generator producing explicit atom-pair bond specifications. Validated on an expanded benchmark of 1,000 representative glycan structures from the GlyTouCan database, GlycoSMILES2BAP achieves 97.8\% epimer accuracy, 97.4\% anomeric accuracy, and 95.9\% linkage accuracy compared to $\sim$60\% for SMILES-based approaches, with processing time $<$1 second per structure versus 30--60 minutes for manual specification. Systematic ablation studies confirm that all three core modules contribute significantly to the high accuracy. Furthermore, validation against 10 literature-reported structure errors demonstrated 100\% correction rate, and database-scale processing of 100 GlyTouCan structures achieved 94\% success rate with average processing time of 0.82 ms per structure.
+
+\noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, enabling accurate, reproducible structure prediction for the glycobiology community. The tool successfully corrects common stereochemistry errors and scales to database-level processing.
+
+\noindent\textbf{Availability:} Open-source implementation available at \url{https://github.com/xiaqiang/glycosmiles2bap}
+
+\noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
+\end{abstract}
+
+\newpage
+\linenumbers
+
+%==============================================
+% INTRODUCTION
+%==============================================
+\section{Introduction}
+
+Glycans are essential biological molecules involved in protein folding, cell signaling, immune recognition, and pathogen interaction \citep{varki2017biological}. Over 50\% of human proteins undergo glycosylation, making accurate glycan structure prediction crucial for understanding biological mechanisms and developing therapeutics \citep{helenius2004intracellular}. GlyTouCan, the international glycan structure repository, catalogs over 200,000 unique glycan structures \citep{tiemeyer

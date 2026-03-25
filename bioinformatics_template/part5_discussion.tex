@@ -1,0 +1,86 @@
+\section{Discussion}
+
+\subsection{Key Findings}
+
+\begin{enumerate}
+\item \textbf{Automated BAP generation is feasible:} Our pipeline successfully automates the tedious manual process of BAP specification, reducing per-structure processing time from 30--60 minutes to $<$1 second.
+
+\item \textbf{High stereochemistry accuracy:} Among the 48 structures that were successfully processed without manual intervention, GlycoSMILES2BAP achieved $>$98\% stereochemistry accuracy across all metrics, approaching the quality of manual specification while being fully automated. When accounting for the 2 structures requiring manual intervention due to unsupported CCD entries, the overall success rate was 96\% (48/50 structures fully automated with correct stereochemistry).
+
+\item \textbf{Practical usability:} The tool integrates with existing glycan databases (GlyTouCan, GlyGen) and accepts standard notations (IUPAC, WURCS), making it immediately useful for the glycobiology community.
+\end{enumerate}
+
+\subsection{Strengths}
+
+\begin{enumerate}
+\item \textbf{Automation:} Eliminates the need for manual atom-by-atom bond specification, democratizing AF3 glycan modeling for non-experts.
+
+\item \textbf{Accuracy:} Achieves $>$98\% stereochemistry accuracy, approaching the theoretical maximum of manual specification.
+
+\item \textbf{Speed:} Sub-second processing time enables high-throughput applications and database-scale predictions.
+
+\item \textbf{Extensibility:} The modular architecture allows easy addition of new monosaccharide CCD mappings as needed.
+
+\item \textbf{Open source:} Freely available implementation facilitates community contribution and validation.
+\end{enumerate}
+
+\subsection{Limitations}
+
+\begin{enumerate}
+\item \textbf{Benchmark dataset size:} The current benchmark of 50 glycan structures serves as a \textit{pilot validation} to demonstrate proof-of-concept and establish baseline performance metrics. While this sample size provides sufficient statistical power to detect large effect sizes (Cohen's $d > 2.0$) and enables meaningful comparison with the baseline methods reported by \citet{huang2025}, we acknowledge that a larger-scale evaluation would strengthen claims of generalizability. Future work will expand testing to include thousands of representative structures from the GlyTouCan database, spanning broader taxonomic diversity (bacterial, plant, and fungal glycans) and incorporating rare modifications to assess robustness across the full spectrum of glycan structural complexity.
+
+\item \textbf{CCD coverage:} While 28+ monosaccharides are supported, some rare or modified sugars require custom CCD templates not currently available in the PDB database. Specifically, GlcN (glucosamine) and GalN (galactosamine) lack standard CCD entries.
+
+\item \textbf{Input format dependency:} The pipeline relies on correct IUPAC/WURCS notation; errors in input strings propagate through the system.
+
+\item \textbf{Validation scope:} Our benchmark focuses on common mammalian glycans; bacterial and plant glycans with unusual linkages may require additional testing.
+
+\item \textbf{AF3 dependency:} The tool is designed specifically for AF3 input format and may require modification for other structure prediction tools.
+
+\item \textbf{No structural validation:} The pipeline generates input specifications but does not validate the final AF3 predictions against experimental structures.
+\end{enumerate}
+
+\subsection{Scope of Current Validation and Path to End-to-End Structural Verification}
+
+\label{sec:validation_scope}
+
+It is essential to clearly delineate the scope of validation presented in this work. \textbf{GlycoSMILES2BAP currently addresses the input format layer}---ensuring that the CCD codes and bondedAtomPairs specifications supplied to AlphaFold 3 correctly encode the intended stereochemistry at the chemical notation level. Our benchmark validation demonstrates that the pipeline generates stereochemically accurate input specifications with $>$98\% accuracy across epimer configuration, anomeric configuration, and linkage position.
+
+\textbf{However, input format correctness does not automatically guarantee accuracy of the final three-dimensional structure prediction.} While \citet{huang2025} established that correct CCD+BAP input format yields stereochemically correct structures in AF3 output, a comprehensive validation of GlycoSMILES2BAP would require \textit{end-to-end 3D structural verification}. This would involve: (1) generating AF3 input JSON using our pipeline, (2) submitting to AF3 server for structure prediction, (3) extracting predicted glycan coordinates from the resulting PDB files, and (4) computing root-mean-square deviation (RMSD) against experimentally determined reference structures (e.g., from the Protein Data Bank or Glycomics databases).
+
+\textbf{Such end-to-end validation would quantify the ultimate impact of correct input specification on 3D structural accuracy.} The expected outcome, based on the findings of \citet{huang2025}, is that structures generated via GlycoSMILES2BAP pipeline should exhibit significantly lower RMSD to experimental references compared to those generated from SMILES input (which produces incorrect stereoisomers). However, conducting this validation requires substantial computational resources and access to AF3 prediction services, which are beyond the scope of the present methodological study.
+
+\textbf{Planned future work} includes systematic end-to-end validation using a subset of benchmark structures with known experimental structures. We will integrate with validation tools such as Privateer \citep{agirre2023} to automatically assess stereochemistry quality of AF3-predicted glycan structures, enabling quantitative comparison of 3D accuracy between GlycoSMILES2BAP-generated inputs and alternative input formats.
+
+\subsection{Comparison with Existing Tools}
+
+\begin{table}[h]
+\centering
+\caption{Comparison with existing glycan structure tools}
+\label{tab:comparison}
+\begin{tabular}{llccc}
+\toprule
+Tool & Input Format & AF3 Compatible & Automation & Accuracy \\
+\midrule
+GlycoSMILES2BAP & IUPAC/WURCS & Yes (CCD+BAP) & Full & $>$98\% \\
+Manual BAP & Custom & Yes & None & $\sim$100\% \\
+SMILES input & SMILES & Yes & Full & $\sim$60\% \\
+userCCD & Custom CCD & Yes & Partial & $\sim$80\% \\
+GlyLES & IUPAC & No & Full & N/A \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Community Impact}
+
+GlycoSMILES2BAP addresses a critical bottleneck identified by \citet{huang2025}, enabling:
+
+\begin{enumerate}
+\item \textbf{Large-scale screening:} Researchers can now predict structures for hundreds of glycan variants without manual specification.
+
+\item \textbf{Reproducibility:} Automated conversion eliminates human error in BAP specification.
+
+\item \textbf{Integration:} Direct compatibility with GlyTouCan (200,000+ glycan entries) enables systematic structural annotation.
+
+\item \textbf{Education:} The tool lowers the barrier to entry for researchers new to computational glycobiology.
+\end{enumerate}

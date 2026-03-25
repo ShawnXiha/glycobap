@@ -1,0 +1,11 @@
+structure_id,iupac_notation,category,num_residues,residues,linkages,expected_ccd_codes,processing_time_ms,epimer_correct,anomeric_correct,linkage_correct,notes
+BM001,Gal(b1-4)Glc,Linear,2,"Gal,Glc","Gal(b1-4)","GAL,GLC",0.78,1,1,1,Simple disaccharide
+BM002,Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)Glc,Linear,4,"Gal,GlcNAc,Gal,Glc","Gal(b1-4),GlcNAc(b1-3),Gal(b1-4)","GAL,NAG,GAL,GLC",0.82,1,1,1,LNnT tetrasaccharide
+BM003,GlcNAc(b1-3)Gal(b1-4)Glc,Linear,3,"GlcNAc,Gal,Glc","GlcNAc(b1-3),Gal(b1-4)","NAG,GAL,GLC",0.76,1,1,1,LNT trisaccharide
+BM004,Glc(a1-4)Glc(a1-4)Glc,Linear,3,"Glc,Glc,Glc","Glc(a1-4),Glc(a1-4)","GLC,GLC,GLC",0.71,1,1,1,Maltotriose
+BM005,Glc(b1-4)Glc,Linear,2,"Glc,Glc","Glc(b1-4)","GLC,GLC",0.65,1,1,1,Cellobiose
+BM006,Man(a1-3)[Man(a1-6)]Man(b1-4)GlcNAc(b1-4)GlcNAc,N-glycan,5,"Man,Man,Man,GlcNAc,GlcNAc","Man(a1-3),Man(a1-6),Man(b1-4),GlcNAc(b1-4)","MAN,MAN,BMA,NAG,NAG",0.95,1,1,1,M3 core structure
+BM007,Man(a1-3)[Man(a1-6)]Man(b1-4)GlcNAc(b1-4)GlcNAc-Fuc(a1-6),N-glycan,6,"Man,Man,Man,GlcNAc,GlcNAc,Fuc","Man(a1-3),Man(a1-6),Man(b1-4),GlcNAc(b1-4),Fuc(a1-6)","MAN,MAN,BMA,NAG,NAG,FUC",1.02,1,1,1,Fucosylated N-glycan
+BM008,Gal(b1-4)GlcNAc(b1-2)Man(a1-3)[Gal(b1-4)GlcNAc(b1-2)Man(a1-6)]Man(b1-4)GlcNAc,N-glycan,7,"Gal,GlcNAc,Man,Gal,GlcNAc,Man,GlcNAc","Gal(b1-4),GlcNAc(b1-2),Man(a1-3),Gal(b1-4),GlcNAc(b1-2),Man(a1-6)","GAL,NAG,MAN,GAL,NAG,MAN,NAG",1.35,1,1,1,NA2 biantennary
+BM009,Neu5Ac(a2-6)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)[Neu5Ac(a2-6)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)]Man,N-glycan,9,"Neu5Ac,Gal,GlcNAc,Man,Neu5Ac,Gal,GlcNAc,Man,Man","Neu5Ac(a2-6),Gal(b1-4),GlcNAc(b1-2),Man(a1-3),Neu5Ac(a2-6),Gal(b1-4),GlcNAc(b1-2),Man(a1-6)","SIA,GAL,NAG,MAN,SIA,GAL,NAG,MAN,MAN",1.58,1,1,1,Disialylated biantennary
+BM010,Man(a1-3)Man(a1-3)Man,N-glycan,3,"Man

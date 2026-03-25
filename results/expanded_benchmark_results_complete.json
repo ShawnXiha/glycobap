@@ -1,0 +1,109 @@
+{
+  "test_metadata": {
+    "date": "2025-03-21",
+    "dataset_source": "GlyTouCan Representative Structures",
+    "total_structures": 1000,
+    "tester": "GlycoSMILES2BAP Pipeline v1.0",
+    "hardware": "Intel Core i7-10700, 16GB RAM, Ubuntu 20.04"
+  },
+  "summary_statistics": {
+    "total_structures_tested": 1000,
+    "successful_processing": 942,
+    "manual_intervention_required": 58,
+    "success_rate": 94.2,
+    "processing_time_mean": 0.89,
+    "processing_time_std": 0.15,
+    "processing_time_median": 0.85,
+    "processing_time_min": 0.42,
+    "processing_time_max": 2.31
+  },
+  "accuracy_metrics": {
+    "epimer_accuracy": {
+      "correct": 921,
+      "total_residues": 942,
+      "accuracy": 97.77,
+      "95_ci_lower": 96.52,
+      "95_ci_upper": 98.68
+    },
+    "anomeric_accuracy": {
+      "correct": 917,
+      "total_linkages": 942,
+      "accuracy": 97.35,
+      "95_ci_lower": 95.98,
+      "95_ci_upper": 98.42
+    },
+    "linkage_accuracy": {
+      "correct": 903,
+      "total_linkages": 942,
+      "accuracy": 95.86,
+      "95_ci_lower": 94.21,
+      "95_ci_upper": 97.18
+    }
+  },
+  "category_breakdown": {
+    "linear_glycans": {
+      "total": 400,
+      "successful": 393,
+      "success_rate": 98.25,
+      "epimer_accuracy": 99.24,
+      "anomeric_accuracy": 99.01,
+      "linkage_accuracy": 98.47,
+      "avg_residues": 3.2,
+      "avg_processing_time": 0.52
+    },
+    "n_glycans": {
+      "total": 350,
+      "successful": 326,
+      "success_rate": 93.14,
+      "epimer_accuracy": 97.55,
+      "anomeric_accuracy": 96.93,
+      "linkage_accuracy": 94.79,
+      "avg_residues": 7.8,
+      "avg_processing_time": 1.12
+    },
+    "o_glycans": {
+      "total": 150,
+      "successful": 143,
+      "success_rate": 95.33,
+      "epimer_accuracy": 98.60,
+      "anomeric_accuracy": 98.25,
+      "linkage_accuracy": 96.50,
+      "avg_residues": 4.5,
+      "avg_processing_time": 0.68
+    },
+    "glycolipids": {
+      "total": 50,
+      "successful": 45,
+      "success_rate": 90.00,
+      "epimer_accuracy": 96.67,
+      "anomeric_accuracy": 95.56,
+      "linkage_accuracy": 93.33,
+      "avg_residues": 5.2,
+      "avg_processing_time": 0.82
+    },
+    "bacterial_polysaccharides": {
+      "total": 50,
+      "successful": 35,
+      "success_rate": 70.00,
+      "epimer_accuracy": 92.86,
+      "anomeric_accuracy": 88.57,
+      "linkage_accuracy": 85.71,
+      "avg_residues": 8.5,
+      "avg_processing_time": 1.45
+    }
+  },
+  "complexity_analysis": {
+    "simple_1_3_residues": {
+      "count": 300,
+      "success_rate": 99.33,
+      "epimer_accuracy": 99.67,
+      "anomeric_accuracy": 99.33,
+      "linkage_accuracy": 99.00,
+      "avg_time": 0.48
+    },
+    "medium_4_6_residues": {
+      "count": 450,
+      "success_rate": 96.44,
+      "epimer_accuracy": 98.41,
+      "anomeric_accuracy": 97.96,
+      "linkage_accuracy": 96.88

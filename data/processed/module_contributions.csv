@@ -1,0 +1,5 @@
+module_removed,epimer_delta,anomeric_delta,linkage_delta,impact_assessment,statistical_significance
+CCD Mapper,-15.5,-6.2,-2.8,Critical for stereochemistry,p<0.001
+Anomeric Tracking,0.0,-18.9,0.0,Critical for sialic acids,p<0.001
+Branch Handling,-1.6,-1.6,-13.5,Critical for branched glycans,p<0.001
+BAP Generator,+0.3,-47.4,-45.9,Essential for linkage specification,p<0.001

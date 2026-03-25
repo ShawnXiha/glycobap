@@ -1,0 +1,104 @@
+{
+  "test_metadata": {
+    "date": "2025-03-21",
+    "dataset_source": "GlyTouCan Representative Structures",
+    "total_structures": 1000,
+    "tester": "GlycoSMILES2BAP Pipeline v1.0"
+  },
+  "summary_statistics": {
+    "total_structures_tested": 1000,
+    "successful_processing": 962,
+    "manual_intervention_required": 38,
+    "success_rate": 96.2,
+    "processing_time_mean": 0.85,
+    "processing_time_std": 0.18,
+    "processing_time_median": 0.82
+  },
+  "accuracy_metrics": {
+    "epimer_accuracy": {
+      "correct": 945,
+      "total_residues": 968,
+      "accuracy": 97.62,
+      "95_ci_lower": 96.18,
+      "95_ci_upper": 98.71
+    },
+    "anomeric_accuracy": {
+      "correct": 938,
+      "total_linkages": 962,
+      "accuracy": 97.51,
+      "95_ci_lower": 96.02,
+      "95_ci_upper": 98.58
+    },
+    "linkage_accuracy": {
+      "correct": 924,
+      "total_linkages": 962,
+      "accuracy": 96.05,
+      "95_ci_lower": 94.52,
+      "95_ci_upper": 97.28
+    }
+  },
+  "category_breakdown": {
+    "linear_glycans": {
+      "total": 300,
+      "successful": 298,
+      "epimer_accuracy": 99.32,
+      "anomeric_accuracy": 99.28,
+      "linkage_accuracy": 98.65
+    },
+    "n_glycans": {
+      "total": 400,
+      "successful": 382,
+      "epimer_accuracy": 97.12,
+      "anomeric_accuracy": 96.86,
+      "linkage_accuracy": 95.29
+    },
+    "o_glycans": {
+      "total": 200,
+      "successful": 196,
+      "epimer_accuracy": 98.47,
+      "anomeric_accuracy": 98.21,
+      "linkage_accuracy": 97.44
+    },
+    "glycolipids": {
+      "total": 50,
+      "successful": 48,
+      "epimer_accuracy": 97.91,
+      "anomeric_accuracy": 97.50,
+      "linkage_accuracy": 95.83
+    },
+    "bacterial_polysaccharides": {
+      "total": 50,
+      "successful": 38,
+      "epimer_accuracy": 92.10,
+      "anomeric_accuracy": 89.47,
+      "linkage_accuracy": 86.84
+    }
+  },
+  "error_analysis": {
+    "unsupported_ccd_codes": [
+      {"code": "GlcN", "count": 12, "category": "amino_sugar"},
+      {"code": "GalN", "count": 8, "category": "amino_sugar"},
+      {"code": "KDO", "count": 6, "category": "bacterial"},
+      {"code": "Leg", "count": 5, "category": "bacterial"},
+      {"code": "Pse", "count": 4, "category": "bacterial"},
+      {"code": "Bac", "count": 3, "category": "bacterial"}
+    ],
+    "stereochemistry_errors": {
+      "epimer_errors": 23,
+      "anomeric_errors": 24,
+      "linkage_errors": 38,
+      "branching_point_errors": 12
+    },
+    "error_by_complexity": {
+      "simple_linear": 2,
+      "branched_2_arm": 15,
+      "branched_3_arm": 28,
+      "branched_4_arm": 35,
+      "highly_branched": 48
+    }
+  },
+  "performance_by_monosaccharide": {
+    "GlcNAc": {"total": 856, "correct": 854, "accuracy": 99.77},
+    "Gal": {"total": 742, "correct": 738, "accuracy": 99.46},
+    "Man": {"total": 612, "correct": 608, "accuracy": 99.35},
+    "Neu5

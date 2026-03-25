@@ -1,0 +1,38 @@
+# Example Glycan Inputs
+# This file contains example glycan notations for testing
+
+# Linear Glycans
+LNnT: "Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)Glc"
+LNT: "Gal(b1-3)GlcNAc(b1-3)Gal(b1-4)Glc"
+Maltotriose: "Glc(a1-4)Glc(a1-4)Glc"
+Cellobiose: "Glc(b1-4)Glc"
+
+# N-Glycans (Core structures)
+Man3: "Man(a1-6)[Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+Man5: "Man(a1-6)[Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc-Asn"
+NA2: "Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+A2: "Neu5Ac(a2-6)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Neu5Ac(a2-6)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+
+# O-Glycans
+Tn_antigen: "GalNAc(a1-O)Ser/Thr"
+T_antigen: "Gal(b1-3)GalNAc(a1-O)Ser/Thr"
+Sialyl_T: "Neu5Ac(a2-3)Gal(b1-3)GalNAc(a1-O)Ser/Thr"
+
+# Sialylated structures
+GM3: "Neu5Ac(a2-3)Gal(b1-4)Glc"
+GD1a: "Neu5Ac(a2-3)Gal(b1-3)GalNAc(b1-4)[Neu5Ac(a2-3)]Gal(b1-4)Glc"
+
+# Fucosylated structures
+Lewis_x: "Gal(b1-4)[Fuc(a1-3)]GlcNAc"
+Lewis_y: "Fuc(a1-2)Gal(b1-4)[Fuc(a1-3)]GlcNAc"
+H_antigen: "Fuc(a1-2)Gal(b1-4)GlcNAc"
+
+# Blood group antigens
+Blood_A: "GalNAc(a1-3)[Fuc(a1-2)]Gal(b1-4)GlcNAc"
+Blood_B: "Gal(a1-3)[Fuc(a1-2)]Gal(b1-4)GlcNAc"
+Blood_O: "Fuc(a1-2)Gal(b1-4)GlcNAc"
+
+# Complex branched structures
+G0: "Man(a1-6)[Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+G1: "GlcNAc(b1-2)Man(a1-6)[Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+G2: "GlcNAc(b1-2)Man(a1-6)[GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc"

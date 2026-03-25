@@ -1,0 +1,19 @@
+{
+  "name": "V003_Sialyllactose_BAP",
+  "modelSeeds": [1, 42, 123],
+  "sequences": [
+    {
+      "ligand": {
+        "id": "G",
+        "ccdCodes": ["SIA", "GAL", "BGC"],
+        "description": "Neu5Ac(a2-3)Gal(b1-4)Glc - Testing C2 anomeric position for sialic acid"
+      }
+    }
+  ],
+  "bondedAtomPairs": [
+    [["G", 1, "C2"], ["G", 2, "O3"]],
+    [["G", 2, "C1"], ["G", 3, "O4"]]
+  ],
+  "dialect": "alphafold3",
+  "version": 1
+}

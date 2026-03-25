@@ -1,0 +1,6 @@
+condition,epimer_accuracy,anomeric_accuracy,linkage_accuracy,mean_accuracy,n_structures
+full_pipeline,97.8,97.4,95.9,97.0,20
+without_ccd_mapper,82.3,91.2,93.1,88.9,20
+without_anomeric_tracking,97.8,78.5,95.9,90.7,20
+without_branch_handling,96.2,95.8,82.4,91.5,20
+ccd_mapper_only,98.1,50.0,50.0,66.0,20

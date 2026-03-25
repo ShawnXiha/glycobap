@@ -1,0 +1,50 @@
+\documentclass[numsec,webpdf,modern,large]{bioinfo}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{longtable}
+
+% Bibliography
+\bibliographystyle{author-date}
+
+\Title{GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3}
+
+\Author[1]{Qiang Xia$^{*}$}
+
+\Affiliation[1]{Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China}
+
+\History{Received on XXXX; revised on XXXX; accepted on XXXX}
+
+\Editor{Editor Name}
+
+\Abstract{
+\textbf{Motivation:} AlphaFold 3 (AF3) has revolutionized protein structure prediction and expanded capabilities to include glycan ligands. However, recent work by Huang et al.\ (2025) identified a critical limitation: standard input formats (SMILES, userCCD) produce stereochemically incorrect glycan structures, while the stereochemistry-preserving CCD+bondedAtomPairs (BAP) format requires impractical manual atom-by-atom specification.
+
+\textbf{Results:} We present GlycoSMILES2BAP, an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format. The pipeline integrates three core modules: (1) a CCD mapper supporting 28+ monosaccharide configurations, (2) a topology parser extracting linkage information, and (3) a BAP generator producing explicit atom-pair bond specifications. Validated on a curated benchmark of 50 glycan structures spanning linear, branched, N-linked, and O-linked categories, GlycoSMILES2BAP achieves $>$98\% stereochemistry accuracy compared to $\sim$60\% for SMILES-based approaches, with processing time $<$1 second per structure versus 30--60 minutes for manual specification.
+
+\textbf{Availability:} Open-source implementation available at \url{https://github.com/xiaqiang/glycosmiles2bap}
+
+\textbf{Contact:} \href{mailto:xiaqiang@xinghetea.com}{xiaqiang@xinghetea.com}
+}
+
+\Keywords{AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs}
+
+\begin{document}
+
+\maketitle
+
+% Include all sections
+\input{part1_intro}
+\input{part2_methods}
+\input{part3_results}
+\input{part4_discussion}
+
+\bibliographystyle{author-date}
+\bibliography{references}
+
+\end{document}

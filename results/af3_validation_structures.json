@@ -1,0 +1,79 @@
+{
+  "experiment": "AF3 Validation for GlycoSMILES2BAP",
+  "date": "2026-03-24",
+  "purpose": "Validate stereochemistry preservation in AF3 predictions",
+  "validation_structures": [
+    {
+      "id": "V001",
+      "name": "Lactose",
+      "iupac": "Gal(b1-4)Glc",
+      "category": "linear",
+      "test_case": "Basic beta linkage",
+      "af3_input": {
+        "ccdCodes": ["GAL", "BGC"],
+        "bondedAtomPairs": [
+          {"donor": {"residueIndex": 1, "atomName": "C1"}, "acceptor": {"residueIndex": 2, "atomName": "O4"}}
+        ]
+      },
+      "expected_stereochemistry": {
+        "epimer": "Gal (not Glc)",
+        "anomer": "beta",
+        "linkage": "1-4"
+      },
+      "validation_checklist": [
+        "Galactose C4 hydroxyl axial (not equatorial like Glc)",
+        "Beta linkage confirmed by C1-O bond geometry",
+        "No epimer confusion in AF3 output"
+      ]
+    },
+    {
+      "id": "V002",
+      "name": "LNnT",
+      "iupac": "Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)Glc",
+      "category": "linear",
+      "test_case": "Multi-linkage chain",
+      "af3_input": {
+        "ccdCodes": ["GAL", "NAG", "GAL", "BGC"],
+        "bondedAtomPairs": [
+          {"donor": {"residueIndex": 1, "atomName": "C1"}, "acceptor": {"residueIndex": 2, "atomName": "O4"}},
+          {"donor": {"residueIndex": 2, "atomName": "C1"}, "acceptor": {"residueIndex": 3, "atomName": "O3"}},
+          {"donor": {"residueIndex": 3, "atomName": "C1"}, "acceptor": {"residueIndex": 4, "atomName": "O4"}}
+        ]
+      },
+      "validation_checklist": [
+        "All linkages beta configuration",
+        "GlcNAc N-acetyl group preserved",
+        "Correct O3 and O4 linkage positions"
+      ]
+    },
+    {
+      "id": "V003",
+      "name": "Sialyllactose",
+      "iupac": "Neu5Ac(a2-3)Gal(b1-4)Glc",
+      "category": "sialylated",
+      "test_case": "Sialic acid C2 anomeric - CRITICAL",
+      "af3_input": {
+        "ccdCodes": ["SIA", "GAL", "BGC"],
+        "bondedAtomPairs": [
+          {"donor": {"residueIndex": 1, "atomName": "C2"}, "acceptor": {"residueIndex": 2, "atomName": "O3"}},
+          {"donor": {"residueIndex": 2, "atomName": "C1"}, "acceptor": {"residueIndex": 3, "atomName": "O4"}}
+        ]
+      },
+      "critical_validation": "Neu5Ac uses C2 as anomeric carbon (ketose), ring oxygen is O6",
+      "validation_checklist": [
+        "CRITICAL: Neu5Ac anomeric carbon at C2 (not C1)",
+        "CRITICAL: Ring oxygen O6 (not O5)",
+        "Alpha configuration on Sia-Gal linkage"
+      ]
+    },
+    {
+      "id": "V004",
+      "name": "M3_N-glycan",
+      "iupac": "Man(a1-3)[Man(a1-6)]Man(b1-4)GlcNAc(b1-4)GlcNAc",
+      "category": "n_glycan",
+      "test_case": "Branch handling",
+      "af3_input": {
+        "ccdCodes": ["MAN", "MAN", "BMA", "NAG", "NAG"],
+        "bondedAtomPairs": [
+          {"donor": {"residueIndex": 1, "atomName": "C1"}, "acceptor": {"residueIndex": 3, "atomName": "O3"}},
+          {"donor": {"

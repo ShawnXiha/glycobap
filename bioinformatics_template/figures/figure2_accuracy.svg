@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <style>
+      .title { font: bold 16px Arial, sans-serif; }
+      .axis-label { font: 12px Arial, sans-serif; }
+      .legend { font: 11px Arial, sans-serif; }
+      .bar-label { font: 10px Arial, sans-serif; fill: white; }
+    </style>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">Figure 2: Stereochemistry Accuracy Comparison</text>
+  
+  <!-- Y-axis -->
+  <line x1="80" y1="60" x2="80" y2="420" stroke="black" stroke-width="2"/>
+  <text x="25" y="250" text-anchor="middle" class="axis-label" transform="rotate(-90, 25, 250)">Accuracy (%)</text>
+  
+  <!-- Y-axis ticks and labels -->
+  <line x1="75" y1="420" x2="80" y2="420" stroke="black"/>
+  <text x="70" y="425" text-anchor="end" class="axis-label">0</text>
+  
+  <line x1="75" y1="330" x2="80" y2="330" stroke="black"/>
+  <text x="70" y="335" text-anchor="end" class="axis-label">25</text>
+  
+  <line x1="75" y1="240" x2="80" y2="240" stroke="black"/>
+  <text x="70" y="245" text-anchor="end" class="axis-label">50</text>
+  
+  <line x1="75" y1="150" x2="80" y2="150" stroke="black"/>
+  <text x="70" y="155" text-anchor="end" class="axis-label">75</text>
+  
+  <line x1="75" y1="60" x2="80" y2="60" stroke="black"/>
+  <text x="70" y="65" text-anchor="end" class="axis-label">100</text>
+  
+  <!-- X-axis -->
+  <line x1="80" y1="420" x2="750" y2="420" stroke="black" stroke-width="2"/>
+  <text x="415" y="490" text-anchor="middle" class="axis-label">Accuracy Metric</text>
+  
+  <!-- Bars for Epimer Accuracy -->
+  <g transform="translate(100, 0)">
+    <!-- GlycoSMILES2BAP - 98.5% -->
+    <rect x="0" y="66" width="35" height="354" fill="#2E86AB"/>
+    <text x="17" y="250" text-anchor="middle" class="bar-label" transform="rotate(90, 17, 250)">98.5%</text>
+    
+    <!-- SMILES - 62% -->
+    <rect x="40" y="197" width="35" height="223" fill="#A23B72"/>
+    <text x="57" y="310" text-anchor="middle" class="bar-label" transform="rotate(90, 57, 310)">62%</text>
+    
+    <!-- userCCD - 78% -->
+    <rect x="80" y="139" width="35" height="281" fill="#F18F01"/>
+    <text x="97" y="280" text-anchor="middle" class="bar-label" transform="rotate(90, 97, 280)">78%</text>
+    
+    <!-- Manual BAP - 100% -->
+    <rect x="120" y="60" width="35" height="360" fill="#1B998B"/>
+    <text x="137" y="250" text-anchor="middle" class="bar-label" transform="rotate(90, 137, 250)">~100%</text>
+    
+    <text x="77" y="450" text-anchor="middle" class="axis-label">Epimer</text>
+  </g>
+  
+  <!-- Bars for Anomeric Accuracy -->
+  <g transform="translate(280, 0)">
+    <!-- GlycoSMILES2BAP - 98.2% -->
+    <rect x="0" y="67" width="35" height="353" fill="#2E86AB"/>

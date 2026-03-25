@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlycoSMILES2BAP 演示文稿</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #1a1a2e; color: #eee; }
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; border-bottom: 2px solid #333; }
+        .slide h1 { font-size: 2.5em; margin-bottom: 20px; color: #00d9ff; text-align: center; }
+        .slide h2 { font-size: 2em; margin-bottom: 30px; color: #ff6b6b; }
+        .slide h3 { font-size: 1.5em; margin: 20px 0; color: #4ecdc4; }
+        .slide p { font-size: 1.3em; line-height: 1.8; max-width: 900px; text-align: center; margin: 10px 0; }
+        .slide ul { font-size: 1.2em; line-height: 2; max-width: 800px; text-align: left; }
+        .slide li { margin: 10px 0; }
+        .highlight { color: #ff6b6b; font-weight: bold; }
+        .metric { color: #4ecdc4; font-weight: bold; font-size: 1.4em; }
+        .two-column { display: flex; gap: 40px; max-width: 1200px; }
+        .column { flex: 1; }
+        table { border-collapse: collapse; margin: 20px auto; font-size: 1.1em; }
+        th, td { border: 1px solid #4ecdc4; padding: 12px 20px; text-align: center; }
+        th { background: #16213e; color: #00d9ff; }
+        .nav { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
+        .nav a { color: #00d9ff; text-decoration: none; margin: 0 10px; font-size: 1.2em; }
+        .title-slide { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+        .problem-slide { background: linear-gradient(135deg, #16213e 0%, #0f3460 100%); }
+        .method-slide { background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%); }
+        .result-slide { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+        .conclusion-slide { background: linear-gradient(135deg, #16213e 0%, #0f3460 100%); }
+        .box { background: rgba(78, 205, 196, 0.1); border: 2px solid #4ecdc4; border-radius: 10px; padding: 20px; margin: 20px; }
+        .arrow { font-size: 2em; color: #ff6b6b; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<!-- 幻灯片 1: 标题页 -->
+<div class="slide title-slide" id="slide1">
+    <h1>GlycoSMILES2BAP</h1>
+    <h2>AlphaFold 3糖苷结构预测的自动化立体化学 preserving 管道</h2>
+    <p style="margin-top: 40px; font-size: 1.4em;">
+        <strong>夏强</strong><br>
+        浙江星河茶业科技有限公司<br>
+        xiaqiang@xinghetea.com
+    </p>
+    <p style="margin-top: 30px; color: #888;">
+        关键词：AlphaFold 3 ·

@@ -1,0 +1,39 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{natbib}
+
+\title{GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3}
+\author{Qiang Xia \\
+\textit{Zhejiang Xinghe Tea Technology Co., Ltd.} \\
+\texttt{xiaqiang@xinghetea.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Motivation:} AlphaFold 3 enables glycan structure prediction but standard input formats produce stereochemically incorrect structures, achieving only 62\% accuracy. The stereochemistry-preserving CCD+bondedAtomPairs format requires 30--60 minutes of manual specification per structure, creating a prohibitive barrier for large-scale glycan modeling.
+
+\noindent\textbf{Results:} We present GlycoSMILES2BAP, which automatically converts IUPAC-condensed and WURCS glycan notations to AF3-compatible format. The pipeline employs three mechanisms: (1) CCD mapping with anomeric position tracking (C2 for sialic acids, C1 for aldoses), (2) ring oxygen position assignment (O4/O5/O6 for pentoses/hexoses/sialic acids), and (3) explicit atom-pair bond generation. On a benchmark of 50 diverse glycans, the method achieves 97.8\% epimer accuracy, 97.4\% anomeric accuracy, and 95.9\% linkage accuracy (vs.\ 62\% for SMILES), with processing time $<$1 second per structure. Ablation studies confirm each module contributes significantly ($p<0.001$). Validation on 10 literature-documented errors shows 100\% correction; database-scale processing on 100 GlyTouCan structures achieves 94\% success.
+
+\noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, reducing processing time from hours to seconds while maintaining stereochemistry accuracy. The tool is open-source and integrates with GlyTouCan and GlyGen databases.
+
+\noindent\textbf{Availability:} \url{https://github.com/xiaqiang/glycosmiles2bap}
+
+\noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction
+\end{abstract}
+
+\section{Introduction}
+Glycans mediate essential biological processes including protein folding, cell signaling, and immune recognition. Over 50\% of human proteins undergo glycosylation, and GlyTouCan catalogs over 200,000 unique glycan structures. Accurate glycan structure prediction is therefore crucial for understanding biological mechanisms and developing therapeutics.
+
+AlphaFold 3 (AF3) achieves unprecedented accuracy for protein-ligand complexes including glycans. However, Huang et al.\ (2025) identified a critical limitation: standard input formats produce stereochemically incorrect glycan structures. The SMILES format yields only $\sim$60\% stereochemistry accuracy due to epimer and anomeric errors. The userCCD format improves to $\sim$80\% but still introduces linkage errors. Only the CCD+bondedAtomPairs (BAP) format, which explicitly specifies atom-to-atom bonds, achieves near-perfect accuracy---yet requires 30--60 minutes of manual specification per structure.
+
+This creates a practical barrier: researchers must choose between accessible but unreliable formats, or accurate but impractical manual specification. For a library of 100 glycan variants, manual BAP generation would require 50--100 hours of expert time.
+
+We present GlycoSMILES2BAP, an automated pipeline that generates AF3-compatible CCD+BAP specifications from standard glycan notations. Our approach addresses three technical challenges: (1) mapping 28+ monosaccharide configurations to correct CCD codes while preserving stereochemistry, (2) tracking anomeric positions that differ between aldoses (C1) and ketoses such as sialic acids (C2), and (3) generating explicit atom-pair bond specifications for complex branched glycans. Validated on 50 diverse glycan structures, the pipeline achieves 97.8\% epimer accuracy, 97.4\% anomeric accuracy, and 95.9\% linkage

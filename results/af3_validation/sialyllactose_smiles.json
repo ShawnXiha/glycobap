@@ -1,0 +1,14 @@
+{
+  "name": "Sialyllactose_SMILES_comparison",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "ligand": {
+        "id": "G",
+        "smiles": "CC(=O)N[C@@H]1[C@@H](O)[C@H](O)[C@@H](CO)O[C@@H]1O[C@@H]2[C@@H](O)[C@H](O)[C@H](O)[C@@H](CO)O2"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 1
+}

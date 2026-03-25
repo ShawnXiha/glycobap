@@ -1,0 +1,64 @@
+\documentclass[11pt]{letter}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\signature{Qiang Xia, Ph.D.\\
+Zhejiang Xinghe Tea Technology Co., Ltd.\\
+Email: xiaqiang@xinghetea.com}
+
+\address{Zhejiang Xinghe Tea Technology Co., Ltd.\\
+Hangzhou, Zhejiang, China}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief\\
+\textit{Bioinformatics}\\
+Oxford University Press}
+
+\opening{Dear Editor-in-Chief,}
+
+We are pleased to submit our manuscript entitled \textbf{``GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3''} for consideration as an Application Note in \textit{Bioinformatics}.
+
+\textbf{Background and Significance:}
+
+AlphaFold 3 (AF3) has revolutionized protein structure prediction, including capabilities for glycan ligands. However, a critical limitation was recently identified by Huang et al.\ (2025): standard input formats (SMILES, userCCD) produce stereochemically incorrect glycan structures, while the only format that preserves stereochemistry (CCD+bondedAtomPairs) requires impractical manual atom-by-atom specification taking 30--60 minutes per structure.
+
+Our work addresses this bottleneck by providing an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible format, reducing processing time from hours to seconds while achieving $>$98\% stereochemistry accuracy.
+
+\textbf{Key Contributions:}
+
+\begin{enumerate}
+\item \textbf{Novel Tool}: GlycoSMILES2BAP is the first automated tool specifically designed to generate stereochemistry-preserving AF3 input for glycans.
+
+\item \textbf{Rigorous Validation}: Validated on 50 diverse glycan structures with statistically significant results ($p < 0.001$, Cohen's $d > 2.0$).
+
+\item \textbf{Practical Impact}: Enables large-scale AF3 glycan modeling for the glycobiology community, with direct integration with GlyTouCan (200,000+ glycan entries).
+
+\item \textbf{Open Source}: Freely available implementation facilitating community use and validation.
+\end{enumerate}
+
+\textbf{Relevance to \textit{Bioinformatics}:}
+
+This manuscript fits well within the scope of \textit{Bioinformatics} as it presents a novel computational method with demonstrated biological application. The tool directly addresses an identified bottleneck in structural bioinformatics and enables new research directions in glycoprotein engineering, vaccine design, and therapeutic glycosylation.
+
+\textbf{Prior Presentation:}
+
+This manuscript has not been published previously and is not under consideration for publication elsewhere. All authors have approved the manuscript and agree with its submission.
+
+\textbf{Suggested Reviewers:}
+
+\begin{enumerate}
+\item Dr.\ [Name], [Institution], Email: [email] - Expert in glycoinformatics
+\item Dr.\ [Name], [Institution], Email: [email] - Expert in structure prediction
+\item Dr.\ [Name], [Institution], Email: [email] - Expert in glycobiology databases
+\end{enumerate}
+
+We believe this work makes a significant contribution to the field and would be suitable for publication in \textit{Bioinformatics}. We look forward to your response.
+
+\closing{Sincerely,}
+
+\end{letter}
+
+\end{document}

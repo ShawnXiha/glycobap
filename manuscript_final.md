@@ -16,7 +16,7 @@ Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China
 
 **Conclusions**: GlycoSMILES2BAP bridges the gap between accessible glycan notations and AF3's stereochemistry-preserving input format, enabling accurate, reproducible structure prediction for the glycobiology community without manual specification overhead.
 
-**Availability**: https://github.com/xiaqiang/glycosmiles2bap
+**Availability**: https://github.com/ShawnXiha/glycobap
 
 **Keywords**: AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
 
@@ -401,7 +401,7 @@ Our benchmark validation on 50 diverse glycan structures demonstrates that autom
 
 The glycobiology community can now leverage AF3's glycan modeling capabilities without the prohibitive barrier of manual BAP specification. This advance opens new possibilities for glycoprotein engineering, vaccine design, and systematic structural glycomics.
 
-**Availability**: Open-source implementation available at https://github.com/xiaqiang/glycosmiles2bap
+**Availability**: Open-source implementation available at https://github.com/ShawnXiha/glycobap
 
 **Future directions**: 
 - Extend CCD mapping coverage for rare/modified monosaccharides

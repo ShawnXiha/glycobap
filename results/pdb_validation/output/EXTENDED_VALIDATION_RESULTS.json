@@ -1,0 +1,31 @@
+{
+  "validation_date": "2026-03-28",
+  "total_structures": 12,
+  "passed": 9,
+  "failed": 3,
+  "success_rate": "75.0%",
+  "results": [
+    {"id": "V001", "pdb": "5NSC", "structure": "Fucosylated", "status": "PASS", "ccd": "FUC", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V002", "pdb": "1L6R", "structure": "Lactose", "status": "PASS", "ccd": "GAL", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V003", "pdb": "2VXR", "structure": "Sialyllactose", "status": "PASS", "ccd": "SIA", "anomeric": "C2", "ring_o": "O6"},
+    {"id": "V004", "pdb": "5K65", "structure": "M3 N-glycan", "status": "PASS", "ccd": "MAN", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V005", "pdb": "4NXU", "structure": "A2 N-glycan", "status": "FAIL", "ccd": null, "anomeric": null, "ring_o": null, "reason": "Complex bi-antennary requires full IUPAC parsing"},
+    {"id": "V006", "pdb": "1NPU", "structure": "GM1 ganglioside", "status": "FAIL", "ccd": null, "anomeric": null, "ring_o": null, "reason": "Complex branched structure needs topology parser"},
+    {"id": "V007", "pdb": "2JCP", "structure": "Core-2 O-glycan", "status": "PASS", "ccd": "NGA", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V008", "pdb": "3WBM", "structure": "Heparin fragment", "status": "FAIL", "ccd": null, "anomeric": null, "ring_o": null, "reason": "IDR (iduronic acid) not in simplified test mapper"},
+    {"id": "V009", "pdb": "4DO4", "structure": "High-mannose M9", "status": "PASS", "ccd": "MAN", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V010", "pdb": "1SLA", "structure": "Hyaluronan", "status": "PASS", "ccd": "GCU", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V011", "pdb": "5FON", "structure": "Blood group A", "status": "PASS", "ccd": "NGA", "anomeric": "C1", "ring_o": "O5"},
+    {"id": "V012", "pdb": "2W8G", "structure": "Keratan sulfate", "status": "PASS", "ccd": "GAL", "anomeric": "C1", "ring_o": "O5"}
+  ],
+  "critical_tests": {
+    "sialic_acid_c2": {"test": "V003", "status": "PASS", "note": "CRITICAL: C2 anomeric position correctly identified"},
+    "fucose_l_config": {"test": "V001", "status": "PASS", "note": "L-configuration correctly mapped to FUC"},
+    "branch_topology": {"test": "V004", "status": "PASS", "note": "Multi-residue branch correctly handled"}
+  },
+  "failures_analysis": {
+    "V005": "Bi-antennary requires full IUPAC topology parser",
+    "V006": "Complex ganglioside needs topology parsing",
+    "V008": "Iduronic acid (IDR) is rare sugar - needs extended CCD table"
+  }
+}

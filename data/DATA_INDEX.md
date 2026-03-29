@@ -64,7 +64,7 @@ data/
 
 ### For Reproduction
 1. Raw data in `raw/` folder can be used as input
-2. Processing scripts available at: https://github.com/xiaqiang/glycosmiles2bap
+2. Processing scripts available at: https://github.com/ShawnXiha/glycobap
 3. Expected outputs documented in `processed/` folder
 
 ### For Citation
@@ -86,7 +86,7 @@ If using this data, please cite:
 
 For questions about the data, contact:
 - Email: xiaqiang@xinghetea.com
-- GitHub: https://github.com/xiaqiang/glycosmiles2bap/issues
+- GitHub: https://github.com/ShawnXiha/glycobap/issues
 
 ---
 

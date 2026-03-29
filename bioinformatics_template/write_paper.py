@@ -27,7 +27,7 @@ content = r'''\documentclass[11pt,a4paper]{article}
 
 \noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, reducing processing time from hours to seconds while maintaining stereochemistry accuracy. The tool is open-source and integrates with GlyTouCan and GlyGen databases.
 
-\noindent\textbf{Availability:} \url{https://github.com/xiaqiang/glycosmiles2bap}
+\noindent\textbf{Availability:} \url{https://github.com/ShawnXiha/glycobap}
 
 \noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction
 \end{abstract}

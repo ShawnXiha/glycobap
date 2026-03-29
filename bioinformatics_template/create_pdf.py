@@ -38,7 +38,7 @@ latex_parts.append(r'''\documentclass[11pt,a4paper]{article}
 
 \noindent\textbf{Conclusions:} GlycoSMILES2BAP eliminates the input format barrier for AF3 glycan modeling, enabling accurate, reproducible structure prediction for the glycobiology community.
 
-\noindent\textbf{Availability:} \url{https://github.com/xiaqiang/glycosmiles2bap}
+\noindent\textbf{Availability:} \url{https://github.com/ShawnXiha/glycobap}
 
 \noindent\textbf{Keywords:} AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
 \end{abstract}

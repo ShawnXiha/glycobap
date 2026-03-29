@@ -1,0 +1,23 @@
+[
+  {
+    "name": "M3_N-glycan_validation",
+    "modelSeeds": [1],
+    "sequences": [
+      {
+        "ligand": {
+          "id": "G",
+          "ccdCodes": ["MAN", "MAN", "BMA", "NAG", "NAG"],
+          "description": "M3 N-glycan core - Testing branch handling"
+        }
+      }
+    ],
+    "bondedAtomPairs": [
+      [["G", 1, "C1"], ["G", 3, "O3"]],
+      [["G", 2, "C1"], ["G", 3, "O6"]],
+      [["G", 3, "C1"], ["G", 4, "O4"]],
+      [["G", 4, "C1"], ["G", 5, "O4"]]
+    ],
+    "dialect": "alphafold3",
+    "version": 1
+  }
+]

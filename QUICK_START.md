@@ -98,6 +98,55 @@ python3 scripts/analyze_af3_results.py
 
 ---
 
+## ⚠️ 替代验证方案（AF3模型参数未获批时）
+
+详见: `VALIDATION_PLAN_ALTERNATIVE.md`
+
+### 方案A: AlphaFold Server (推荐)
+
+**网址**: https://alphafoldserver.com
+
+**步骤**:
+1. 访问AlphaFold Server网站
+2. 选择"Glycan"作为ligand类型
+3. 输入CCD codes: `["SIA", "GAL", "BGC"]`
+4. 等待预测完成
+5. 下载结果并分析
+
+**输入文件已准备**: `results/alphafold_server_validation/VALIDATION_INPUTS.json`
+
+### 方案B: Privateer结构验证
+
+**安装**:
+```bash
+# CCP4套件
+conda install -c ccdc ccdc-privateer
+```
+
+**运行**:
+```bash
+python3 scripts/privateer_validation.py
+```
+
+### 方案C: 与PDB已知结构对比
+
+**参考结构**:
+- PDB 5NSC (Fucosylated glycan)
+- PDB 5K65 (N-glycan)
+
+---
+
+## 文档索引
+
+| 文件 | 说明 |
+|------|------|
+| `QUICK_START.md` | 本文档 - 快速启动 |
+| `WORK_SUMMARY.md` | 工作总结 |
+| `VALIDATION_PLAN_ALTERNATIVE.md` | 替代验证方案详情 |
+| `INDEX.md` | 项目文件索引 |
+
+---
+
 ## 完成后的下一步
 
 1. 运行 `python3 scripts/analyze_af3_results.py` 分析结果

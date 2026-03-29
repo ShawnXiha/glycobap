@@ -1,0 +1,51 @@
+[
+  {
+    "id": "V001",
+    "pdb_id": "5NSC",
+    "name": "Fucosylated",
+    "iupac": "Fuc(a1-2)Gal(b1-4)Glc",
+    "expected_ccd": [
+      "FUC",
+      "GAL",
+      "GLC"
+    ],
+    "key_check": "FUC = alpha-L-fucose"
+  },
+  {
+    "id": "V002",
+    "pdb_id": "1L6R",
+    "name": "Lactose",
+    "iupac": "Gal(b1-4)Glc",
+    "expected_ccd": [
+      "GAL",
+      "GLC"
+    ],
+    "key_check": "GAL C4 axial"
+  },
+  {
+    "id": "V003",
+    "pdb_id": "2VXR",
+    "name": "Sialyllactose",
+    "iupac": "Neu5Ac(a2-3)Gal(b1-4)Glc",
+    "expected_ccd": [
+      "SIA",
+      "GAL",
+      "GLC"
+    ],
+    "key_check": "SIA anomeric = C2"
+  },
+  {
+    "id": "V004",
+    "pdb_id": "5K65",
+    "name": "M3_N-glycan",
+    "iupac": "Man(a1-3)[Man(a1-6)]Man(b1-4)GlcNAc(b1-4)GlcNAc",
+    "expected_ccd": [
+      "MAN",
+      "MAN",
+      "BMA",
+      "NAG",
+      "NAG"
+    ],
+    "key_check": "Branch topology"
+  }
+]

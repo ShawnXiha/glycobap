@@ -1,0 +1,48 @@
+%==============================================================================
+% METHODS SECTION
+%==============================================================================
+\section{Methods}
+
+\subsection{Pipeline Architecture}
+
+GlycoSMILES2BAP operates through four sequential modules: Input Parsing, CCD Mapping, BAP Generation, and Output Formatting. The pipeline accepts IUPAC-condensed, WURCS, and GlycoCT input formats.
+
+\subsection{CCD Mapper Module}
+
+The CCD (Chemical Component Dictionary) provides standardized residue identifiers. Our mapper supports 28+ monosaccharide configurations with three key features: (1) case-insensitive matching, (2) anomeric position tracking (C2 for sialic acids, C1 for aldoses), and (3) ring oxygen positions (O4 for pentoses, O5 for hexoses, O6 for sialic acids).
+
+\begin{table}[h]
+\centering
+\caption{Key CCD Mappings}
+\begin{tabular}{lllll}
+\toprule
+Monosaccharide & Anomer & Config & CCD Code & Anomeric C \\
+\midrule
+GlcNAc & $\beta$ & D & NAG & C1 \\
+Man & $\alpha$ & D & MAN & C1 \\
+Gal & $\beta$ & D & GAL & C1 \\
+Fuc & $\alpha$ & L & FUC & C1 \\
+Neu5Ac & $\alpha$ & D & SIA & C2 \\
+\bottomrule
+\end{tabular}
+\label{tab:ccd}
+\end{table}
+
+\subsection{BAP Generator Module}
+
+The BAP generator produces explicit atom-pair bond specifications. Each glycosidic linkage is represented as: (donor\_residue, donor\_atom, acceptor\_residue, acceptor\_atom).
+
+\noindent\textbf{Algorithm: BAP Generation}
+\begin{enumerate}
+\item For each linkage $l$ in glycan topology:
+\item \quad Identify donor anomeric carbon (C1 for aldoses, C2 for ketoses)
+\item \quad Identify acceptor oxygen position from linkage notation
+\item \quad Generate atom pair tuple
+\item Return list of all atom pairs
+\end{enumerate}
+
+\noindent The algorithm runs in $O(n)$ time where $n$ is the number of residues.
+
+\subsection{PDB Structure Validation Method}
+
+To validate stereochemistry handling, we compared GlycoSMILES2BAP output against known correct PDB structures. This approach was necessary because AF3 model parameters were not accessible. Four PDB structures were selected to test critical cases (Table~\ref{tab:pdb_cases}).

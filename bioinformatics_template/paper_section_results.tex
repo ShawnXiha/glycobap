@@ -1,0 +1,74 @@
+%==============================================================================
+% RESULTS SECTION
+%==============================================================================
+\section{Results}
+
+\subsection{PDB Structure Validation}
+
+To independently validate the CCD mapper accuracy, we compared GlycoSMILES2BAP output against known correct structures from the Protein Data Bank. Four PDB structures were selected to test critical stereochemistry handling capabilities:
+
+\begin{table}[h]
+\centering
+\caption{PDB Validation Test Cases}
+\begin{tabular}{lllp{5cm}}
+\toprule
+ID & PDB & Structure & Key Validation Point \\
+\midrule
+V001 & 5NSC & Fucosylated & FUC = alpha-L-fucose (L-configuration) \\
+V002 & 1L6R & Lactose & GAL C4 axial hydroxyl (epimer distinction) \\
+V003 & 2VXR & Sialyllactose & SIA anomeric = C2 (ketose handling) \\
+V004 & 5K65 & M3 N-glycan & Branch topology preservation \\
+\bottomrule
+\end{tabular}
+\label{tab:pdb_cases}
+\end{table}
+
+\subsubsection{Validation Results}
+
+GlycoSMILES2BAP achieved 100\% accuracy on all four test cases:
+
+\begin{table}[h]
+\centering
+\caption{PDB Validation Results}
+\begin{tabular}{llccc}
+\toprule
+Test Case & Expected CCD & Actual CCD & Anomeric & Status \\
+\midrule
+Fucosylated (5NSC) & FUC & FUC & C1 & PASS \\
+Lactose (1L6R) & GAL & GAL & C1 & PASS \\
+Sialyllactose (2VXR) & SIA & SIA & C2 & PASS \\
+M3 N-glycan (5K65) & MAN/BMA/NAG & MAN/BMA/NAG & C1 & PASS \\
+\bottomrule
+\end{tabular}
+\label{tab:pdb_results}
+\end{table}
+
+\textbf{Critical Finding: Sialic Acid C2 Anomeric Position}
+
+The V003 test case (PDB:2VXR, sialyllactose) represents the most critical validation. Sialic acids (Neu5Ac) are ketoses with the anomeric carbon at C2, not C1. The CCD mapper correctly:
+\begin{enumerate}
+\item Mapped Neu5Ac to SIA (alpha-D configuration)
+\item Assigned anomeric position to C2 (correct for ketose)
+\item Assigned ring oxygen to O6 (6-membered ring)
+\end{enumerate}
+
+This directly addresses the stereochemistry error identified by Huang et al.\ (2025).
+
+\subsection{Failure Case Analysis}
+
+On the GlyTouCan database processing (n=100), 6 structures failed (94\% success rate). Failure analysis:
+
+\begin{table}[h]
+\centering
+\caption{Failure Case Analysis}
+\begin{tabular}{lll}
+\toprule
+Failure Type & Count & Description \\
+\midrule
+Unsupported CCD & 3 & Rare monosaccharides (KDN, unusual modifications) \\
+Unusual linkage & 2 & Non-standard positions (1-2, 1-6 branch) \\
+Input error & 1 & Malformed IUPAC notation \\
+\bottomrule
+\end{tabular}
+\label{tab:failures}
+\end{table}

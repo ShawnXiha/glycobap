@@ -13,7 +13,7 @@ Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China
 
 **Results:** We present GlycoSMILES2BAP, an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format. The pipeline integrates three core modules: (1) a CCD mapper supporting 28+ monosaccharide configurations, (2) a topology parser extracting linkage information, and (3) a BAP generator producing explicit atom-pair bond specifications. Validated on an expanded benchmark of 1,000 representative glycan structures from the GlyTouCan database, GlycoSMILES2BAP achieves 97.8% epimer accuracy, 97.4% anomeric accuracy, and 95.9% linkage accuracy compared to ~60% for SMILES-based approaches, with processing time <1 second per structure versus 30-60 minutes for manual specification.
 
-**Availability:** Open-source implementation available at https://github.com/xiaqiang/glycosmiles2bap
+**Availability:** Open-source implementation available at https://github.com/ShawnXiha/glycobap
 
 **Contact:** xiaqiang@xinghetea.com
 

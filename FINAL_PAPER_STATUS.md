@@ -18,7 +18,7 @@
 | Missing evaluation metrics | ✅ FIXED | Section 2.5 added with formal definitions |
 | Author placeholder | ✅ FIXED | Qiang Xia, Zhejiang Xinghe Tea Technology |
 | Acknowledgments placeholder | ✅ FIXED | Properly attributed to GlyTouCan, GlyLES, Huang et al. |
-| GitHub URL placeholder | ✅ FIXED | https://github.com/xiaqiang/glycosmiles2bap |
+| GitHub URL placeholder | ✅ FIXED | https://github.com/ShawnXiha/glycobap |
 
 ---
 

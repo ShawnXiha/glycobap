@@ -34,7 +34,7 @@ pip install glyles glypy
 ### Clone Repository
 
 ```bash
-git clone https://github.com/xiaqiang/glycosmiles2bap.git
+git clone https://github.com/ShawnXiha/glycobap.git
 cd glycosmiles2bap
 ```
 

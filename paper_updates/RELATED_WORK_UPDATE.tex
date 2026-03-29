@@ -1,0 +1,64 @@
+%==============================================================================
+% RELATED WORK UPDATE - Adding PDB Validation Context
+%==============================================================================
+
+\section{Related Work}
+
+\subsection{Glycan Structure Validation Methods}
+
+% NEW: PDB-based validation context
+Several approaches exist for validating glycan stereochemistry in predicted structures. 
+
+\textbf{Privateer} \citep{agirre2015} is the standard tool for validating glycan 
+structures in experimental PDB deposits, checking anomeric configuration, 
+absolute configuration (D/L), ring puckering, and linkage geometry. However, 
+Privateer requires 3D coordinates, making it unsuitable for validating input 
+format specifications before structure prediction.
+
+\textbf{PDB Structure Comparison} provides an alternative validation approach. 
+By comparing tool output against experimentally verified PDB structures, 
+stereochemistry correctness can be validated without running predictions. 
+We employed this approach in our validation:
+
+\begin{itemize}
+    \item \textbf{PDB:2VXR} (Sialyllactose): Validates C2 anomeric position 
+    for Neu5Ac---a critical test case where SMILES format fails
+    \item \textbf{PDB:5NSC} (Fucosylated): Validates L-configuration and 
+    alpha-anomer for fucose, a common error case from literature
+    \item \textbf{PDB:5K65} (M3 N-glycan): Validates branch topology and 
+    N-glycosidic linkage specification
+    \item \textbf{PDB:1L6R} (Lactose): Baseline validation for epimer 
+    distinction (galactose vs glucose)
+\end{itemize}
+
+\subsection{Glycan Databases and Standards}
+
+The \textbf{Chemical Component Dictionary (CCD)} maintained by the Worldwide 
+PDB provides standardized residue identifiers. Our CCD mapper uses CCD codes 
+as the authoritative reference, ensuring compatibility with PDB infrastructure.
+
+\textbf{GlyTouCan} \citep{tiemeyer2016} and \textbf{GlyGen} \citep{campbell2020} 
+provide standardized glycan notations. GlycoSMILES2BAP integrates with these 
+databases through IUPAC-condensed and WURCS format support.
+
+\subsection{Comparison with Existing Tools}
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Glycan Validation Approaches}
+\begin{tabular}{lcccc}
+\toprule
+Method & Input & Output & Validation Type & AF3 Ready \\
+\midrule
+Privateer & 3D coordinates & Validation report & Post-prediction & No \\
+PDB Comparison & CCD codes & Accuracy metrics & Pre-prediction & Yes \\
+GlycoSMILES2BAP & IUPAC/WURCS & CCD+BAP & Pre-prediction & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% NEW: Key differentiation
+Our PDB structure comparison validation (Section~\ref{sec:pdb_validation}) 
+demonstrates that GlycoSMILES2BAP correctly handles the critical stereochemistry 
+cases identified in literature, particularly sialic acid C2 anomeric position 
+and fucose L-configuration.

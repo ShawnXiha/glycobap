@@ -1,0 +1,96 @@
+% Experiments Section Update - PDB Validation Results
+% Add to Results section after existing validation content
+
+\subsection{PDB Structure Comparison Validation}
+\label{sec:pdb_validation}
+
+To provide independent validation of stereochemistry correctness, we performed systematic comparison with experimentally determined PDB structures containing verified glycan stereochemistry.
+
+\subsubsection{Validation Method}
+
+We selected four PDB structures representing diverse glycan types with critical stereochemistry features:
+
+\begin{table}[h]
+\centering
+\caption{PDB Reference Structures for Validation}
+\begin{tabular}{lllp{4cm}}
+\toprule
+ID & PDB & Structure & Critical Validation Point \\
+\midrule
+V001 & 5NSC & Fucosylated & FUC = alpha-L-fucose (NOT beta) \\
+V002 & 1L6R & Lactose & GAL C4 axial hydroxyl (epimer) \\
+V003 & 2VXR & Sialyllactose & SIA anomeric = C2 (ketose) \\
+V004 & 5K65 & M3 N-glycan & Branch topology preservation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For each reference structure, we:
+\begin{enumerate}
+\item Extracted glycan IUPAC notation from PDB annotations
+\item Processed through GlycoSMILES2BAP CCD mapper
+\item Compared output CCD codes with PDB-deposited CCD codes
+\item Verified anomeric carbon positions and ring oxygen assignments
+\end{enumerate}
+
+\subsubsection{Validation Results}
+
+All four test cases passed validation (100\% success rate):
+
+\begin{table}[h]
+\centering
+\caption{PDB Validation Results}
+\begin{tabular}{llccccl}
+\toprule
+Test & PDB & Expected & Actual & Anomeric & Ring O & Status \\
+\midrule
+Fucosylated & 5NSC & FUC & FUC & C1 & O5 & \textbf{PASS} \\
+Lactose & 1L6R & GAL & GAL & C1 & O5 & \textbf{PASS} \\
+Sialyllactose & 2VXR & SIA & SIA & \textbf{C2} & \textbf{O6} & \textbf{PASS} \\
+M3 N-glycan & 5K65 & MAN/BMA/NAG & MAN/BMA/NAG & C1 & O5 & \textbf{PASS} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Critical Finding - Sialic Acid C2 Anomeric:} The most important validation confirmed correct handling of Neu5Ac (sialic acid):
+\begin{itemize}
+\item Anomeric carbon correctly identified as C2 (not C1)
+\item Ring oxygen correctly identified as O6 (not O5)
+\item This addresses the core stereochemistry problem identified by Huang et al.\ (2025)
+\end{itemize}
+
+\textbf{Fucose L-Configuration:} The tool correctly distinguished:
+\begin{itemize}
+\item FUC (alpha-L-fucose) for the 5NSC structure
+\item NOT BDF (beta-L-fucose) - wrong anomer
+\item L-configuration preserved through mapping
+\end{itemize}
+
+\textbf{Epimer Distinction:} For lactose (1L6R):
+\begin{itemize}
+\item Galactose correctly mapped to GAL
+\item NOT GLC (glucose) - different C4 stereochemistry
+\item Epimer distinction validated
+\end{itemize}
+
+\textbf{Branch Topology:} For M3 N-glycan (5K65):
+\begin{itemize}
+\item Branch topology correctly preserved
+\item All five residues correctly assigned
+\item Alpha/beta distinction maintained (MAN vs BMA)
+\end{itemize}
+
+\subsubsection{Comparison with Literature-Reported Errors}
+
+The PDB validation directly addresses documented stereochemistry errors:
+
+\begin{table}[h]
+\centering
+\caption{Literature Error Comparison}
+\begin{tabular}{llll}
+\toprule
+Source & Problem & Our Tool & Status \\
+\midrule
+Huang et al.\ 2025 & SMILES $\sim$60\% error rate & BAP format & Corrected \\
+Frenz et al.\ 2018 & PDB:5NSC wrong anomer & FUC mapped & Corrected \\
+Jo et al

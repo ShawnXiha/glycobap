@@ -93,7 +93,7 @@ Key citations included in references.bib:
 
 For questions about this submission:
 - Email: xiaqiang@xinghetea.com
-- GitHub: https://github.com/xiaqiang/glycosmiles2bap
+- GitHub: https://github.com/ShawnXiha/glycobap
 
 ---
 Generated: 2025-01

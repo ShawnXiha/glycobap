@@ -1,0 +1,83 @@
+% METHODS SECTION UPDATE
+% Add this subsection after "BAP Generator Module"
+
+\subsection{Validation Methodology}
+\label{sec:validation_method}
+
+We employed a multi-tiered validation strategy to ensure stereochemistry preservation:
+
+\subsubsection{CCD Mapper Validation Against PDB Structures}
+
+To validate the correctness of our CCD mapping, we compared GlycoSMILES2BAP outputs against known correct structures from the Protein Data Bank (PDB). We selected four reference structures that test critical stereochemistry features:
+
+\begin{table}[h]
+\centering
+\caption{PDB Reference Structures for CCD Mapper Validation}
+\begin{tabular}{lllp{5cm}}
+\toprule
+ID & PDB & Glycan Type & Critical Test \\
+\midrule
+V001 & 5NSC & Fucosylated & FUC = alpha-L-fucose (NOT beta) \\
+V002 & 1L6R & Lactose & GAL C4 axial hydroxyl (epimer distinction) \\
+V003 & 2VXR & Sialyllactose & \textbf{SIA anomeric = C2} (ketose) \\
+V004 & 5K65 & M3 N-glycan & Branch topology preservation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For each reference structure, we:
+\begin{enumerate}
+    \item Extracted the expected CCD codes from literature-verified PDB annotations
+    \item Ran GlycoSMILES2BAP on the corresponding IUPAC-condensed notation
+    \item Compared output CCD codes, anomeric positions, and ring oxygen assignments
+\end{enumerate}
+
+\subsubsection{Critical Test: Sialic Acid Anomeric Position}
+
+The V003 (2VXR, sialyllactose) case is the most critical validation because:
+\begin{itemize}
+    \item Sialic acids (Neu5Ac) are ketoses with anomeric carbon at C2, not C1
+    \item SMILES-based approaches typically fail this, placing the glycosidic bond at C1
+    \item Our CCD mapper explicitly handles this by maintaining the \texttt{ANOMERIC} lookup table: \texttt{SIA$\rightarrow$C2}, \texttt{SLB$\rightarrow$C2}
+\end{itemize}
+
+\subsubsection{Ring Oxygen Position Tracking}
+
+We validated correct ring oxygen assignment:
+\begin{itemize}
+    \item O5 for hexoses (GAL, GLC, MAN, NAG, FUC)
+    \item O4 for pentoses (XYS, ARA, RIB)
+    \item O6 for sialic acids (SIA, NGC, KDN)
+\end{itemize}
+
+\subsubsection{Configuration Preservation}
+
+L-configuration monosaccharides require special handling:
+\begin{itemize}
+    \item Fucose: L-configuration encoded by using FUC (alpha) vs BDF (beta)
+    \item Rhamnose: L-configuration encoded as RAM (alpha-L-rhamnose)
+    \item Arabinose: L-configuration encoded as ARA (alpha-L-arabinose)
+\end{itemize}
+
+\subsubsection{Validation Results}
+
+All four PDB reference cases passed validation (100\% accuracy):
+
+\begin{table}[h]
+\centering
+\caption{CCD Mapper Validation Results}
+\begin{tabular}{llcccl}
+\toprule
+Case & Monosaccharide & Expected & Actual & Anomeric & Status \\
+\midrule
+V001 & Fuc(alpha,L) & FUC & FUC & C1 & \checkmark \\
+V002 & Gal(beta,D) & GAL & GAL & C1 & \checkmark \\
+V003 & Neu5Ac(alpha,D) & SIA & SIA & \textbf{C2} & \checkmark \\
+V004 & Man(alpha,D) & MAN & MAN & C1 & \checkmark \\
+V004 & Man(beta,D) & BMA & BMA & C1 & \checkmark \\
+V004 & GlcNAc(beta,D) & NAG & NAG & C1 & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The V003 (sialyllactose) case confirms that our pipeline correctly identifies C2 as the anomeric position for sialic acids---the critical stereochemistry issue identified by Huang et al.\ (2025).

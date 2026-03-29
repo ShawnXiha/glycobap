@@ -1,0 +1,75 @@
+%==============================================================================
+% PART 2: Methods Section (Fixed - No Duplicates)
+%==============================================================================
+\section{Methods}
+
+\subsection{Pipeline Architecture}
+
+GlycoSMILES2BAP operates through four sequential modules: Input Parsing, CCD Mapping, BAP Generation, and Output Formatting. The pipeline accepts IUPAC-condensed, WURCS, and GlycoCT input formats.
+
+\subsection{CCD Mapper Module}
+
+The CCD (Chemical Component Dictionary) provides standardized residue identifiers. Our mapper supports 28+ monosaccharide configurations. Key design decisions include: (1) case-insensitive matching, (2) anomeric position tracking (C2 for sialic acids, C1 for aldoses), and (3) ring oxygen positions (O4 for pentoses, O5 for hexoses, O6 for sialic acids).
+
+\begin{table}[h]
+\centering
+\caption{Key CCD Mappings. The complete mapping table for 28+ monosaccharides is provided in Supplementary Table S1.}
+\begin{tabular}{lllll}
+\toprule
+Monosaccharide & Anomer & Config & CCD Code & Anomeric C \\
+\midrule
+GlcNAc & $\beta$ & D & NAG & C1 \\
+GlcNAc & $\alpha$ & D & A2G & C1 \\
+Man & $\alpha$ & D & MAN & C1 \\
+Man & $\beta$ & D & BMA & C1 \\
+Gal & $\beta$ & D & GAL & C1 \\
+Gal & $\alpha$ & D & GLA & C1 \\
+Fuc & $\alpha$ & L & FUC & C1 \\
+Neu5Ac & $\alpha$ & D & SIA & C2 \\
+Neu5Gc & $\alpha$ & D & NGC & C2 \\
+Xyl & $\beta$ & D & XYS & C1 \\
+\bottomrule
+\end{tabular}
+\label{tab:ccd_mapping}
+\end{table}
+
+\subsection{BAP Generator Module}
+
+The bondedAtomPairs (BAP) generator converts glycan topology into AF3-compatible bond specifications. Each glycosidic linkage is represented as an explicit atom pair specifying donor residue, donor atom, acceptor residue, and acceptor atom.
+
+\textbf{Algorithm 1: BAP Generation}
+
+\noindent\textbf{Input:} Glycan topology $T$, CCD mapper $M$\\
+\textbf{Output:} List of bondedAtomPairs $B$
+
+\begin{enumerate}
+\item $B \gets []$
+\item \textbf{for} each linkage $l$ in $T$.edges \textbf{do}
+\item \quad $donor\_res \gets l$.donor\_id
+\item \quad $acceptor\_res \gets l$.acceptor\_id
+\item \quad $donor\_atom \gets M$.anomeric($T$.nodes[$donor\_res$].ccd)
+\item \quad $acceptor\_atom \gets$ ``O'' + $l$.acceptor\_position
+\item \quad $B$.append([$donor\_res$, $donor\_atom$, $acceptor\_res$, $acceptor\_atom$])
+\item \textbf{end for}
+\item \textbf{return} $B$
+\end{enumerate}
+
+\noindent The algorithm runs in $O(n)$ time where $n$ is the number of monosaccharide residues, making it efficient for large glycans.
+
+\subsection{PDB Structure Validation Method}
+\label{sec:pdb_validation}
+
+To independently validate the CCD mapper's stereochemistry handling, we employed a PDB structure comparison approach. This validation was necessary because AlphaFold Server does not support direct glycan submission, and AF3 model parameters were not accessible at the time of this study.
+
+We selected four PDB structures with known correct stereochemistry, each testing a distinct aspect of CCD mapping (Table~\ref{tab:pdb_cases}).
+
+\begin{table}[h]
+\centering
+\caption{PDB Validation Test Cases}
+\begin{tabular}{lllp{5cm}}
+\toprule
+ID & PDB & Structure & Key Validation Point \\
+\midrule
+V001 & 5NSC & Fucosylated & FUC = alpha-L-fucose (L-configuration) \\
+V002 & 1L6R & Lactose & GAL C4 axial hydroxyl (epimer distinction) \\
+V003 & 2VXR & Sialyllactose & SIA anomeric = C

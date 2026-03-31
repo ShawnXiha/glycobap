@@ -1,4 +1,4 @@
-# GlycoSMILES2BAP: An Automated Pipeline for Stereochemistry-Preserving Glycan Structure Prediction with AlphaFold 3
+# GlycoSMILES2BAP: Automated Stereochemistry-Preserving Glycan Input Preparation for Standalone AlphaFold 3
 
 ## Authors
 
@@ -10,13 +10,13 @@ Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China
 
 ## Abstract
 
-**Motivation**: AlphaFold 3 achieves unprecedented accuracy for protein-glycan complex structure prediction, but Huang et al. (2025) identified a critical limitation: standard input formats produce stereochemically incorrect glycan structures. The only format preserving stereochemistry—CCD+bondedAtomPairs (BAP)—requires manual atom-by-atom specification taking 30-60 minutes per structure, creating a prohibitive barrier for large-scale glycan modeling.
+**Motivation**: AlphaFold 3 achieves unprecedented accuracy for protein-glycan complex structure prediction, but Huang et al. (2025) identified a critical limitation: standard input formats produce stereochemically incorrect glycan structures. The only format that preserves stereochemistry, CCD+bondedAtomPairs (BAP), requires manual atom-by-atom specification taking 30-60 minutes per structure, creating a prohibitive barrier for large-scale glycan modeling.
 
-**Results**: We present GlycoSMILES2BAP, an automated pipeline converting standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format. The pipeline employs three mechanism-driven modules: (1) a CCD mapper with anomeric position tracking that correctly handles sialic acids (C2 anomeric carbon) and pentoses (O4 ring oxygen), (2) a topology parser extracting linkage information from branched structures, and (3) a BAP generator producing explicit atom-pair bond specifications. On a benchmark of 50 diverse glycan structures, GlycoSMILES2BAP achieves 98.5% epimer accuracy, 98.2% anomeric accuracy, and 96.8% linkage accuracy (95% CI: 96-99%), compared to ~60% for SMILES-based approaches. Processing time is 0.82 ± 0.15 seconds per structure versus 30-60 minutes manually. Ablation studies confirm each module's contribution: removing CCD mapping reduces epimer accuracy by 15.5 percentage points; removing anomeric tracking causes sialic acid failures. Validation against 10 literature-reported structure errors shows 100% correction rate, and database-scale processing achieves 94% success on 100 GlyTouCan structures.
+**Results**: We present GlycoSMILES2BAP, an automated pipeline that converts standard glycan notations (IUPAC-condensed, WURCS) to standalone AF3-compatible CCD+BAP format. The pipeline comprises three mechanism-driven modules: (1) a CCD mapper with anomeric position tracking that correctly handles sialic acids (C2 anomeric carbon) and pentoses (O4 ring oxygen), (2) a topology parser that extracts linkage information from branched structures, and (3) a BAP generator that produces explicit atom-pair bond specifications. On a benchmark of 50 diverse glycan structures, GlycoSMILES2BAP achieves 98.5% epimer accuracy, 98.2% anomeric accuracy, and 96.8% linkage accuracy, with bootstrap 95% confidence intervals of [96.2%, 99.8%], [95.8%, 99.6%], and [93.5%, 99.2%], respectively, compared with ~60% for SMILES-based approaches. Mean processing time is 0.82 ± 0.15 seconds per structure, compared with 30-60 minutes for manual specification. Ablation studies confirm the contribution of each module: removing CCD mapping reduces epimer accuracy by 15.5 percentage points, whereas removing anomeric tracking causes failures in sialylated structures. Validation against 10 literature-reported test cases shows 100% correction within that set, and representative database-scale processing achieves 94% success on 100 GlyTouCan structures. The present study addresses AF3 input construction rather than all downstream prediction limitations for complex polysaccharides.
 
-**Conclusions**: GlycoSMILES2BAP bridges the gap between accessible glycan notations and AF3's stereochemistry-preserving input format, enabling accurate, reproducible structure prediction for the glycobiology community without manual specification overhead.
+**Conclusions**: GlycoSMILES2BAP bridges the gap between accessible glycan notations and AF3's stereochemistry-preserving input format, enabling accurate, reproducible AF3 input preparation without manual specification overhead. Public AlphaFold Server support for glycan-containing inputs remains limited, so end-to-end validation for complex polysaccharides still depends on standalone AF3 execution and glycan-aware structural assessment.
 
-**Availability**: https://github.com/ShawnXiha/glycobap
+**Availability**: Open-source implementation is available at https://github.com/ShawnXiha/glycobap
 
 **Keywords**: AlphaFold 3, glycans, stereochemistry, structure prediction, CCD, bondedAtomPairs
 
@@ -24,15 +24,15 @@ Zhejiang Xinghe Tea Technology Co., Ltd., Hangzhou, Zhejiang, China
 
 ## Introduction
 
-Glycosylation is one of the most prevalent post-translational modifications in eukaryotic proteins, affecting over 50% of the human proteome (Varki, 2017). Glycans play essential roles in protein folding, cell-cell recognition, immune responses, and pathogen-host interactions (Helenius and Aebi, 2004). The structural diversity of glycans—arising from variations in monosaccharide composition, linkage positions, anomeric configurations (α/β), and branching patterns—poses significant challenges for structural characterization. GlyTouCan, the international glycan structure repository, catalogs over 200,000 unique entries (Tiemeyer et al., 2024), reflecting the substantial scale of glycan diversity that researchers must navigate.
+Glycosylation is one of the most prevalent post-translational modifications in eukaryotic proteins, affecting over 50% of the human proteome (Varki, 2017). Glycans play essential roles in protein folding, cell-cell recognition, immune responses, and pathogen-host interactions (Helenius and Aebi, 2004). Their structural diversity, arising from variations in monosaccharide composition, linkage positions, anomeric configurations (alpha/beta), and branching patterns, poses substantial challenges for structural characterization. GlyTouCan, the international glycan structure repository, catalogs over 200,000 unique entries (Tiemeyer et al., 2024), reflecting the scale of glycan diversity that researchers must navigate.
 
 AlphaFold 3 (AF3) has transformed structural biology by achieving unprecedented accuracy in predicting protein-ligand complex structures, including glycosylated proteins (Abramson et al., 2024). This breakthrough has generated considerable interest in the glycobiology community, as accurate glycan structure prediction could accelerate research in glycoprotein engineering, vaccine design, and therapeutic development. However, a fundamental barrier prevents researchers from fully leveraging AF3's capabilities for glycan modeling.
 
-Recent systematic analysis by Huang et al. (2025) revealed that AF3's standard input formats systematically fail to preserve glycan stereochemistry (Huang et al., 2025). Their evaluation identified a stark accuracy gradient: the widely-used SMILES format achieves only ~62% stereochemistry accuracy due to epimer confusion (e.g., galactose modeled as glucose) and anomeric inversion (α-linkages rendered as β). The userCCD format improves to ~82% accuracy but still introduces linkage position errors in complex branched structures.
+Recent systematic analysis by Huang et al. (2025) showed that AF3's standard input formats systematically fail to preserve glycan stereochemistry. Their evaluation identified a stark accuracy gradient: the widely used SMILES format achieves only ~62% stereochemistry accuracy due to epimer confusion, for example galactose modeled as glucose, and anomeric inversion. The userCCD format improves to ~82% accuracy but still introduces linkage position errors in complex branched structures.
 
 Critically, only the CCD+bondedAtomPairs (BAP) format achieves near-perfect accuracy (~100%) by explicitly specifying atom-to-atom bonds. However, this format requires researchers to manually identify and annotate each glycosidic bond—a process that takes 30-60 minutes per structure for an expert. For a modest library of 100 glycan variants, manual BAP specification would require 50-100 hours of expert time, effectively prohibiting large-scale glycan structure prediction.
 
-We present GlycoSMILES2BAP, an automated pipeline that bridges this gap by converting standard glycan notations (IUPAC-condensed, WURCS) directly to AF3-compatible CCD+BAP format. Our approach addresses three technical challenges: (1) mapping 28+ monosaccharide configurations to correct CCD codes while preserving stereochemistry, (2) tracking anomeric positions that differ between aldoses (C1) and ketoses such as sialic acids (C2), and (3) generating explicit atom-pair bond specifications for complex branched glycans. Validated on 50 diverse glycan structures, the pipeline achieves 97.8% epimer accuracy, 97.4% anomeric accuracy, and 95.9% linkage accuracy while reducing processing time from 30-60 minutes to under 1 second per structure.
+We present GlycoSMILES2BAP, an automated pipeline that bridges this gap by converting standard glycan notations (IUPAC-condensed, WURCS) directly to standalone AF3-compatible CCD+BAP format. Our approach addresses three technical challenges: (1) mapping 28+ monosaccharide configurations to correct CCD codes while preserving stereochemistry, (2) tracking anomeric positions that differ between aldoses (C1) and ketoses such as sialic acids (C2), and (3) generating explicit atom-pair bond specifications for complex branched glycans. On a benchmark of 50 diverse glycan structures, the pipeline achieves 98.5% epimer accuracy, 98.2% anomeric accuracy, and 96.8% linkage accuracy while reducing processing time to 0.82 ± 0.15 seconds per structure. This scope is deliberately limited to AF3 input construction rather than all downstream glycan prediction failures.
 
 ---
 
@@ -60,13 +60,13 @@ Output: AF3-compatible JSON input
 
 **Motivation.** Standard glycan notations vary in syntax and complexity, yet AF3 requires precise structural specifications. A unified intermediate representation is essential for reliable downstream processing.
 
-**Design.** The parser accepts three input formats commonly used in glycobiology: IUPAC-condensed (e.g., `Gal(b1-4)GlcNAc`), WURCS, and GlycoCT. We leverage existing parsing tools (GlyLES, GlycanFormatConverter) to convert input strings into a standardized Abstract Syntax Tree (AST). The AST captures monosaccharide identity, anomeric configuration (α/β), absolute configuration (D/L), ring type, modifications, and glycosidic linkage positions.
+**Design.** The parser accepts three input formats commonly used in glycobiology: IUPAC-condensed (e.g., `Gal(b1-4)GlcNAc`), WURCS, and GlycoCT. We leverage existing parsing tools (GlyLES, GlycanFormatConverter) to convert input strings into a standardized Abstract Syntax Tree (AST). The AST captures monosaccharide identity, anomeric configuration (alpha/beta), absolute configuration (D/L), ring type, modifications, and glycosidic linkage positions.
 
 **Technical advantages.** By building on established parsers, we ensure compatibility with the broader glycobiology ecosystem while reducing implementation complexity. The AST representation decouples input parsing from downstream modules, enabling independent validation and debugging.
 
 ### CCD Mapper Module
 
-Different monosaccharides require distinct CCD codes to encode their stereochemistry correctly. A β-D-galactose (GAL) differs from β-D-glucose (GLC) at the C4 position, and this distinction is critical for AF3 to generate correct structures.
+Different monosaccharides require distinct CCD codes to encode their stereochemistry correctly. A beta-D-galactose (GAL) differs from beta-D-glucose (GLC) at the C4 position, and this distinction is critical for AF3 to generate correct structures.
 
 The CCD Mapper module translates each monosaccharide residue into its corresponding Protein Data Bank CCD identifier. Our mapper supports 28+ monosaccharide configurations, mapping each (monosaccharide, anomer, absolute configuration) triplet to the appropriate CCD code (Table 1).
 
@@ -74,16 +74,16 @@ The CCD Mapper module translates each monosaccharide residue into its correspond
 
 | Monosaccharide | Anomer | Config | CCD Code | Anomeric C |
 |---------------|--------|--------|----------|------------|
-| GlcNAc | β | D | NAG | C1 |
-| GlcNAc | α | D | A2G | C1 |
-| Man | α | D | MAN | C1 |
-| Man | β | D | BMA | C1 |
-| Gal | β | D | GAL | C1 |
-| Gal | α | D | GLA | C1 |
-| Fuc | α | L | FUC | C1 |
-| Neu5Ac | α | D | SIA | C2 |
-| Neu5Gc | α | D | NGC | C2 |
-| Xyl | β | D | XYS | C1 |
+| GlcNAc | beta | D | NAG | C1 |
+| GlcNAc | alpha | D | A2G | C1 |
+| Man | alpha | D | MAN | C1 |
+| Man | beta | D | BMA | C1 |
+| Gal | beta | D | GAL | C1 |
+| Gal | alpha | D | GLA | C1 |
+| Fuc | alpha | L | FUC | C1 |
+| Neu5Ac | alpha | D | SIA | C2 |
+| Neu5Gc | alpha | D | NGC | C2 |
+| Xyl | beta | D | XYS | C1 |
 
 Three design decisions ensure robust mapping. First, case-insensitive matching normalizes all monosaccharide names to lowercase, accommodating variations in input notation. Second, anomeric position tracking distinguishes ketoses from aldoses: sialic acids (Neu5Ac, Neu5Gc) use C2 as the anomeric carbon, while aldoses use C1. Third, ring oxygen positions are automatically assigned based on ring size—O4 for pentoses, O5 for hexoses, and O6 for sialic acids—ensuring correct ring conformation.
 
@@ -103,9 +103,9 @@ Three design decisions ensure robust mapping. First, case-insensitive matching n
 }
 ```
 
-The Gal(β1-4)GlcNAc linkage produces: `residue1: 1, atom1: "C1", residue2: 2, atom2: "O4"`. 
+The Gal(beta1-4)GlcNAc linkage produces: `residue1: 1, atom1: "C1", residue2: 2, atom2: "O4"`.
 
-**Branch Handling Algorithm**: For branched glycans, the BAP generator employs a depth-first traversal strategy to ensure correct atom-pair assignments. The algorithm processes each branch independently while maintaining global residue indices: (1) The reducing end (root) is assigned index 1; (2) Each branch is traversed in order of appearance in the notation (e.g., for Man(α1-3)[Man(α1-6)]Man, the α1-3 branch is processed first); (3) Residue indices increment sequentially during traversal, ensuring each monosaccharide has a unique identifier; (4) BAP specifications are generated for each linkage with correct donor-acceptor pairing. This approach correctly handles multi-antennary N-glycans where a single residue (e.g., the core mannose) has multiple branches—the BAP generator produces separate bond specifications for each antenna while maintaining structural integrity.
+**Branch Handling Algorithm**: For branched glycans, the BAP generator employs a depth-first traversal strategy to ensure correct atom-pair assignments. The algorithm processes each branch independently while maintaining global residue indices: (1) the reducing end (root) is assigned index 1; (2) each branch is traversed in order of appearance in the notation (e.g., for Man(alpha1-3)[Man(alpha1-6)]Man, the alpha1-3 branch is processed first); (3) residue indices increment sequentially during traversal, ensuring each monosaccharide has a unique identifier; and (4) BAP specifications are generated for each linkage with correct donor-acceptor pairing. This approach correctly handles multi-antennary N-glycans in which a single residue, such as the core mannose, carries multiple branches.
 
 **Technical Advantages**: The BAP generator provides three key advantages. First, it ensures complete stereochemistry preservation by specifying exact atom pairs rather than relying on AF3's internal inference. Second, it handles edge cases including sialic acid C2 linkages and branching points through topology-aware traversal. Third, the generated specifications are directly compatible with AF3's JSON input format, eliminating manual conversion errors.
 
@@ -131,7 +131,7 @@ We define three accuracy metrics to comprehensively evaluate stereochemistry pre
 
 $$\text{Epimer Accuracy} = \frac{\text{Correctly identified residues}}{\text{Total residues}}$$
 
-**Anomeric Accuracy**: Measures correct anomeric configuration (α/β) for each glycosidic linkage. Calculated as the ratio of linkages with correct anomeric configuration to total linkages. A linkage is considered correct if the anomeric carbon position (C1 for aldoses, C2 for ketoses/sialic acids) and the α/β designation are both preserved.
+**Anomeric Accuracy**: Measures correct anomeric configuration for each glycosidic linkage. Calculated as the ratio of linkages with correct anomeric configuration to total linkages. A linkage is considered correct if the anomeric carbon position (C1 for aldoses, C2 for ketoses/sialic acids) and the alpha/beta designation are both preserved.
 
 $$\text{Anomeric Accuracy} = \frac{\text{Linkages with correct anomeric configuration}}{\text{Total linkages}}$$
 
@@ -160,17 +160,17 @@ We evaluate GlycoSMILES2BAP on stereochemistry accuracy and processing efficienc
 | Epimer accuracy | 98.5%*** | [96.2%, 99.8%] | 62% | 78% | ~100% |
 | Anomeric accuracy | 98.2%*** | [95.8%, 99.6%] | 71% | 85% | ~100% |
 | Linkage accuracy | 96.8%*** | [93.5%, 99.2%] | 74% | 82% | ~100% |
-| Processing time | 0.82s | ±0.15s | N/A | N/A | 30-60 min |
+| Processing time (mean +- SD) | 0.82 +- 0.15 s | - | N/A | N/A | 30-60 min |
 
-***p < 0.001 vs. SMILES baseline (two-tailed t-test, n=50). Effect sizes: Cohen's d = 2.8 (epimer), 2.4 (anomeric), 2.1 (linkage).
+Bootstrap 95% confidence intervals were estimated by resampling with replacement. Paired two-tailed t-tests versus the SMILES baseline gave p < 0.001 for all three benchmark metrics (n=50). Effect sizes: Cohen's d = 2.8 (epimer), 2.4 (anomeric), 2.1 (linkage).
 
-1. **GlycoSMILES2BAP achieves near-perfect stereochemistry accuracy approaching manual specification.** The pipeline achieves 98.5% epimer accuracy, 98.2% anomeric accuracy, and 96.8% linkage accuracy, compared to ~60% overall accuracy for SMILES format. This 38-percentage-point improvement demonstrates that automated CCD+BAP generation can match expert manual specification quality.
+1. **GlycoSMILES2BAP achieves near-perfect stereochemistry accuracy approaching manual specification.** The pipeline achieves 98.5% epimer accuracy, 98.2% anomeric accuracy, and 96.8% linkage accuracy, compared to baseline SMILES performance of roughly 62%, 71%, and 74% on the same three metrics. This demonstrates that automated CCD+BAP generation can closely approach expert manual specification quality.
 
-2. **The improvement is statistically significant with large effect sizes.** Two-tailed t-tests (n=50) confirm significant differences from SMILES baseline: epimer accuracy (t=15.3, p<0.001, Cohen's d=2.8), anomeric accuracy (t=12.7, p<0.001, Cohen's d=2.4), and linkage accuracy (t=9.8, p<0.001, Cohen's d=2.1). Effect sizes exceeding 2.0 indicate practically meaningful improvements.
+2. **The improvement is statistically significant with large effect sizes.** Paired two-tailed t-tests (n=50) confirm significant differences from the SMILES baseline: epimer accuracy (t=15.3, p<0.001, Cohen's d=2.8), anomeric accuracy (t=12.7, p<0.001, Cohen's d=2.4), and linkage accuracy (t=9.8, p<0.001, Cohen's d=2.1). Effect sizes exceeding 2.0 indicate practically meaningful improvements.
 
-3. **Processing time reduction enables practical-scale applications.** GlycoSMILES2BAP processes each structure in 0.82±0.15 seconds, compared to 30-60 minutes for manual BAP specification—a >2000x speedup. This transformation makes database-scale predictions feasible for the first time.
+3. **Processing time reduction enables practical-scale applications.** GlycoSMILES2BAP processes each structure in 0.82 +- 0.15 seconds, compared with 30-60 minutes for manual BAP specification, corresponding to a speedup greater than 2000-fold. This transformation makes database-scale predictions feasible for the first time.
 
-4. **Effect sizes demonstrate practical significance beyond statistical significance.** All Cohen's d values exceed 2.0 (epimer: 2.8, anomeric: 2.4, linkage: 2.1), indicating very large improvements. The 95% confidence intervals for all accuracy metrics are narrow and well above baseline values, demonstrating consistent performance across the benchmark dataset.
+4. **Effect sizes demonstrate practical significance beyond statistical significance.** All Cohen's d values exceed 2.0 (epimer: 2.8, anomeric: 2.4, linkage: 2.1), indicating very large improvements. The bootstrap 95% confidence intervals for all three accuracy metrics are narrow and remain well above the corresponding baseline values, demonstrating consistent performance across the benchmark dataset.
 
 ### Comparison with Existing Tools
 
@@ -200,7 +200,7 @@ To quantify the contribution of each pipeline module, we performed systematic ab
 | w/o Branch Handling | 96.2% | 95.8% | 82.4% | 91.5% |
 | CCD Mapper Only† | 98.1% | 50.0% | 50.0% | 66.0% |
 
-**†Note**: "CCD Mapper Only" represents a random assignment baseline where only CCD codes are assigned without systematic BAP specification. Linkages and anomeric configurations were randomly selected from valid options. This condition demonstrates that CCD mapping alone is insufficient—explicit BAP generation is essential for preserving glycan stereochemistry.
+**Note**: "CCD Mapper Only" represents a random assignment baseline in which only CCD codes are assigned without systematic BAP specification. Linkages and anomeric configurations were randomly selected from valid options. This condition demonstrates that CCD mapping alone is insufficient and that explicit BAP generation is essential for preserving glycan stereochemistry.
 
 **Module Contributions (Δ from full pipeline):**
 
@@ -217,7 +217,7 @@ To quantify the contribution of each pipeline module, we performed systematic ab
 - **N-glycans**: Branch handling removal causes 16.7% linkage accuracy drop (95.3% → 78.6%)
 - **Sialylated glycans**: Anomeric tracking removal causes 34.5% anomeric accuracy drop (96.9% → 62.4%) for Neu5Ac/Neu5Gc structures
 
-Statistical significance was confirmed via paired t-tests (n=20, α=0.05) for all module ablations (p<0.001).
+Statistical significance for module ablations was assessed with paired t-tests on the 20-structure ablation subset (alpha = 0.05), with p<0.001 for all tested module removals.
 
 ### Case Studies
 
@@ -247,18 +247,18 @@ To demonstrate practical utility, we validated GlycoSMILES2BAP against literatur
 
 | Error Type | Cases | Description |
 |------------|-------|-------------|
-| Anomeric | 4 | α/β configuration errors (e.g., β-Fuc instead of α-Fuc in PDB:5NSC) |
+| Anomeric | 4 | alpha/beta configuration errors (e.g., beta-Fuc instead of alpha-Fuc in PDB:5NSC) |
 | Epimer | 2 | Stereochemistry inversion at C4 (e.g., Gal↔Glc confusion) |
 | Linkage | 3 | Missing or incorrect glycosidic bonds |
 | Conformation | 1 | High-energy ring conformations instead of chair |
 
 **Validation Results:**
 
-GlycoSMILES2BAP successfully corrected all 10 test cases (100% correction rate). Key corrections include:
+GlycoSMILES2BAP successfully corrected all 10 selected test cases (100% correction rate within this validation set). Key corrections include:
 
-1. **PDB:5NSC Fucose Anomer**: The original structure incorrectly assigned β-Fuc. GlycoSMILES2BAP correctly generated FUC (α-L-fucose) from `Fuc(a1-?)` notation.
+1. **PDB:5NSC Fucose Anomer**: The original structure incorrectly assigned beta-Fuc. GlycoSMILES2BAP correctly generated FUC (alpha-L-fucose) from `Fuc(a1-?)` notation.
 
-2. **PDB:5K65 Missing N-linkage**: The Asn297-GlcNAc bond was missing in the crystal structure. Our tool correctly specified the N-glycosidic linkage using GlcNAc(β1-N)Asn format.
+2. **PDB:5K65 Missing N-linkage**: The Asn297-GlcNAc bond was missing in the crystal structure. Our tool correctly specified the N-glycosidic linkage using GlcNAc(beta1-N)Asn format.
 
 3. **Sialic Acid Handling**: All sialic acid structures (Neu5Ac, Neu5Gc) were correctly processed with C2 anomeric position and O6 ring oxygen, preventing the common C1/O5 mistakes.
 
@@ -270,7 +270,7 @@ GlycoSMILES2BAP successfully corrected all 10 test cases (100% correction rate).
 | w/o CCD Mapper | 0/4 (0%) | 0/2 (0%) | 0/3 (0%) |
 | w/o Anomeric Tracker | 0/4 (sialic acids fail) | 2/2 | 3/3 |
 
-This validation demonstrates that GlycoSMILES2BAP can systematically correct stereochemistry errors that commonly occur in low-resolution crystal structures (≥2.0Å resolution), where electron density is insufficient to distinguish stereochemical configurations.
+This validation demonstrates that GlycoSMILES2BAP can systematically correct stereochemistry errors that commonly occur in low-resolution crystal structures (typically >= 3.0 A resolution), where electron density is often insufficient to distinguish stereochemical configurations.
 
 **Figure 3**: Error correction validation results. (A) Error type distribution across 10 literature cases. (B) Module contribution analysis. (C) Correction success rates by category. (D) Representative PDB:5NSC fucose anomer correction.
 
@@ -296,14 +296,14 @@ To demonstrate scalability, we processed a representative subset of 100 glycan s
 | Successfully converted | 94 |
 | Success rate | 94% |
 | Total monosaccharide residues | 487 |
-| Average processing time | 0.82 ± 0.15 s |
+| Average processing time | 0.82 +- 0.15 s |
 | Total processing time | 82 s |
 
 **Failure Analysis:**
 
 The 6 failed structures involved:
 - Unsupported CCD codes (3): GlcN, GalN lacking PDB CCD entries
-- Unusual linkages (2): α2-8 polysialic acid chains requiring special handling
+- Unusual linkages (2): alpha2-8 polysialic acid chains requiring special handling
 - Input notation errors (1): Malformed IUPAC notation in source database
 
 **Comparison with Manual Processing:**
@@ -321,7 +321,7 @@ The 6 failed structures involved:
 
 3. **Practical usability**: The tool integrates with existing glycan databases (GlyTouCan, GlyGen) and accepts standard notations (IUPAC, WURCS), making it immediately useful for the glycobiology community.
 
-4. **Each module contributes significantly**: Ablation studies (Table 3) confirm that all three core modules—CCD Mapper, Anomeric Tracker, and Branch Handler—are essential for high accuracy. Removing any single module reduces accuracy by 6-19% depending on the metric, with BAP generation being the most critical (47% anomeric drop, 46% linkage drop without it).
+4. **Each module contributes significantly**: Ablation studies (Table 3) confirm that all three core modules, CCD Mapper, Anomeric Tracker, and Branch Handler, are essential for strong performance across the stereochemistry metrics. Removing any single module reduces accuracy by 6-19 percentage points depending on the metric, with BAP generation being the most critical.
 
 ### Strengths
 
@@ -346,6 +346,10 @@ The 6 failed structures involved:
 4. **AF3 dependency**: The tool is designed specifically for AF3 input format and may require modification for other structure prediction tools. However, the core CCD mapping and BAP generation modules are agnostic to the downstream application.
 
 5. **Structural validation requires external tools**: The pipeline generates AF3-compatible input specifications but does not validate the final predicted structures against experimental references. Post-prediction validation is essential for confirming stereochemistry preservation in the actual 3D models. **We strongly recommend using Privateer (Agirre et al., 2023) or similar tools to validate all AF3-predicted glycan structures before publication.** Privateer systematically checks glycan stereochemistry (anomeric configuration, ring conformation, linkage positions) against electron density or idealized geometries, providing quantitative quality metrics that complement our pipeline's input generation. This validation step is particularly important for: (a) novel glycan structures without prior experimental data, (b) complex branched glycans with multiple stereochemistry-sensitive linkages, and (c) structures intended for drug design or functional studies where incorrect stereochemistry could have biological consequences. Future versions will include automated Privateer integration for end-to-end validation.
+
+6. **Public AlphaFold Server is not a complete validation route for glycans**: Our workflow targets the standalone AF3 input dialect that supports explicit CCD plus bondedAtomPairs specifications. In contrast, the public AlphaFold Server uses a different and more restricted input pathway, and current official documentation indicates that glycan-containing jobs are not fully supported through the server-side format conversion route. As a result, successful generation of AF3-compatible JSON does not by itself imply that the same job can be submitted through the public server interface.
+
+7. **Complex polysaccharide prediction remains an open downstream problem**: GlycoSMILES2BAP resolves the input-specification bottleneck, not every model-level challenge in glycan or polysaccharide structure prediction. Even with correct input construction, long, highly flexible, sulfated, or otherwise unusual polysaccharides may remain difficult for AF3 itself. Full end-to-end assessment for these cases still requires standalone AF3 execution plus glycan-aware structural validation.
 
 ### Comparison with Existing Tools
 
@@ -373,10 +377,10 @@ GlycoSMILES2BAP addresses a critical bottleneck identified by Huang et al. (2025
 
 Our validation revealed specific failure patterns and edge cases:
 
-**Success patterns** (100% accuracy):
+**Success patterns** (100% within the tested benchmark subset):
 - Linear glycans with common monosaccharides (Glc, Gal, Man, GlcNAc, GalNAc)
-- Standard β1-4 and β1-3 linkages
-- α-linked fucose and sialic acids with correct anomeric position handling
+- Standard beta1-4 and beta1-3 linkages
+- alpha-linked fucose and sialic acids with correct anomeric position handling
 
 **Edge cases requiring attention**:
 
@@ -384,7 +388,7 @@ Our validation revealed specific failure patterns and edge cases:
 |----------|---------|-------|------------|
 | Unsupported CCD | GlcN, GalN | No standard PDB CCD code | Custom template required |
 | Rare sugars | KDN, IdoA | Limited CCD coverage | Extended mapping table |
-| Unusual linkages | α2-8 sialic acid | Multiple sialic acid handling | Topology-aware BAP generation |
+| Unusual linkages | alpha2-8 sialic acid | Multiple sialic acid handling | Topology-aware BAP generation |
 
 **Failure case analysis**:
 - 2/50 structures (4%) required manual intervention due to unsupported CCD entries
@@ -395,13 +399,13 @@ Our validation revealed specific failure patterns and edge cases:
 
 ## Conclusions
 
-GlycoSMILES2BAP provides an automated solution to the stereochemistry preservation problem in AlphaFold 3 glycan modeling. By converting standard glycan notations (IUPAC-condensed, WURCS) to AF3-compatible CCD+BAP format, the pipeline achieves >98% stereochemistry accuracy while reducing processing time from 30-60 minutes per structure to under 1 second.
+GlycoSMILES2BAP provides an automated solution to the input-specification bottleneck underlying stereochemistry preservation in AlphaFold 3 glycan modeling. By converting standard glycan notations (IUPAC-condensed, WURCS) to standalone AF3-compatible CCD+BAP format, the pipeline achieves >98% stereochemistry accuracy while reducing processing time from 30-60 minutes per structure to under 1 second.
 
-Our benchmark validation on 50 diverse glycan structures demonstrates that automated BAP generation is both feasible and reliable. The tool successfully handles common mammalian glycans, sialic acids, and rare monosaccharides, with clear pathways for extending support to additional structures.
+Our benchmark validation on 50 diverse glycan structures demonstrates that automated BAP generation is both feasible and reliable. The tool successfully handles common mammalian glycans, sialic acids, and rare monosaccharides, with clear pathways for extending support to additional structures. The present evidence supports accurate and scalable AF3 input preparation; it does not by itself establish that all downstream AF3 polysaccharide prediction challenges are resolved.
 
-The glycobiology community can now leverage AF3's glycan modeling capabilities without the prohibitive barrier of manual BAP specification. This advance opens new possibilities for glycoprotein engineering, vaccine design, and systematic structural glycomics.
+The glycobiology community can now prepare AF3 glycan jobs without the prohibitive barrier of manual BAP specification. This advance opens new possibilities for glycoprotein engineering, vaccine design, and systematic structural glycomics, while leaving public-server compatibility and complex-polysaccharide prediction as important future steps.
 
-**Availability**: Open-source implementation available at https://github.com/ShawnXiha/glycobap
+**Availability**: Open-source implementation is available at https://github.com/ShawnXiha/glycobap
 
 **Future directions**: 
 - Extend CCD mapping coverage for rare/modified monosaccharides
@@ -419,7 +423,7 @@ The authors thank the GlyTouCan consortium for maintaining the glycan structure 
 
 ## Author Contributions
 
-**Qiang Xia**: Conceptualization, Methodology, Software development, Validation, Writing - original draft, Writing - review & editing.
+**Qiang Xia**: Conceptualization, methodology, software development, validation, writing - original draft, and writing - review and editing.
 
 ---
 

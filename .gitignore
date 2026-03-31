@@ -118,8 +118,8 @@ results/af3_analysis/**/
 *.out
 *.bix
 
-# But keep the final PDF
-!bioinformatics_template/*.pdf
+# Keep only the canonical submission PDF
+!bioinformatics_template/glycosmiles2bap_submission_canonical.pdf
 
 # ------------------------------------------------------------
 # IDE and Editor
